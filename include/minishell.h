@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/30 12:43:59 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:43:12 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,12 @@ int		close_temps(void);
 
 // SIGNALS.C
 int			setget_signo(int action, int ntoset);
-void		set_sig_hd(void);
-void		signal_handler(int signo);
+void		set_signal_heredoc(void);
+void		signal_handler_default(int signo);
+void		signal_handler_pipline(int signo);
 void		psignal_handler_hd(int signo);
-void		set_signals(void);
+void		set_signal_default(void);
+void		set_signal_pipeline(void);
 
 // HANDLE_SYNTAX.C
 int			handle_syntax(char *ptr);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:00:14 by ndo-vale          #+#    #+#              #
-#    Updated: 2024/07/31 09:33:48 by ndo-vale         ###   ########.fr        #
+#    Updated: 2024/08/01 17:32:32 by fivieira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ RM	= rm -rf
 SRC_DIR	= src/
 OBJ_DIR	= obj/
 
-SRCS	= $(addprefix $(SRC_DIR), main.c free_exit.c signals.c handle_syntax.c \
+SRCS	= $(addprefix $(SRC_DIR), main.c free_exit.c signals.c signals_handlers.c handle_syntax.c \
 	  		$(addprefix tokenizer/, tokenize_line.c tokenize_line2.c \
 			tokenizer_parsers.c tokenizer_exit_free.c) \
 			tokenlst_helpers.c get_env_value.c \

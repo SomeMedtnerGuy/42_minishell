@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:25:08 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/30 17:52:13 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:21:59 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	child(char *eof, char *filename, t_root *r)
 		perror("malloc");
 		free_exit(r, errno);
 	}
-	set_sig_hd();
+	set_signal_heredoc();
 	if (save_envp(r->envp) != 0)
 	{
 		perror("envp save");
@@ -51,7 +51,7 @@ static void	child(char *eof, char *filename, t_root *r)
 
 static char	*handle_heredoc_result(int cp_status, char *filename, t_root *r)
 {
-	signal(SIGINT, signal_handler);
+	set_signal_default();
 	if (WIFEXITED(cp_status))
 	{
 		if (WEXITSTATUS(cp_status) == 0)
@@ -79,12 +79,6 @@ char	*heredoc(char *eof, t_root *r)
 	pid_t	cpid;
 	int		cp_status;
 
-	if (!eof)
-	{
-		r->exit_code = 1;
-		ft_putstr_fd("ambiguous redirect\n", 2);
-		return (NULL);
-	}
 	filename = ft_strjoin_free(ft_strdup(".tempfiles/tempheredoc"),
 			ft_itoa(get_next_rn()));
 	if (!filename)

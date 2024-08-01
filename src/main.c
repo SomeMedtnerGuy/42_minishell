@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/01 16:23:51 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:47:28 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	run_pipeline(t_root *r)
 	}
 	if (cpid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		execute_node(r->tree, r);
 		free_tree(r->tree);
 		free_exit(r, 0);
@@ -48,7 +49,13 @@ void	run_pipeline(t_root *r)
 	if (WIFEXITED(cpstatus))
 		r->exit_code = WEXITSTATUS(cpstatus);
 	else
-		r->exit_code = WTERMSIG(cpstatus);
+		if (WCOREDUMP(cpstatus))
+		{
+			r->exit_code = 128 + WTERMSIG(cpstatus);
+			ft_printf("Quit (core dumped)\n");
+		}	
+		else
+			r->exit_code = 128 + WTERMSIG(cpstatus);
 }
 
 static void	ft_readline_loop(t_root *r)
@@ -72,7 +79,10 @@ static void	ft_readline_loop(t_root *r)
 		free_tree(r->tree);
 	}
 	else
+	{
+		set_signal_pipeline();
 		run_pipeline(r);
+	}
 	// if (close_temps() != 0)
 	// 	free_exit(r, errno);
 }
@@ -98,7 +108,7 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_putstr_fd(LAUNCH_ERROR, 2), 0);
 	(void)argv;
 	init_root(&r, envp);
-	set_signals();
+	set_signal_default();
 	while (1)
 		ft_readline_loop(&r);
 	return (0);
