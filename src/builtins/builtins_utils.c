@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 20:17:33 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/01 10:33:12 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:06:06 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	get_envp_i(char *key, char **envp)
 {
 	int	i;
 	int	key_len;
-	
+
 	key_len = ft_strlen(key);
 	if (!is_key_valid(key))
 		return (-1);
@@ -44,18 +44,18 @@ int	get_envp_i(char *key, char **envp)
 	return (-1);
 }
 
-void    delete_var(char *var, char **envp)
+void	delete_var(char *var, char **envp)
 {
-        int     var_i;
+	int	var_i;
 
-        var_i = get_envp_i(var, envp);
-        if (var_i >= 0)
-        {
-                free(envp[var_i]);
-                while (envp[++var_i])
-                        envp[var_i - 1] = envp[var_i];
-                envp[var_i - 1] = NULL;
-        }
+	var_i = get_envp_i(var, envp);
+	if (var_i >= 0)
+	{
+		free(envp[var_i]);
+		while (envp[++var_i])
+			envp[var_i - 1] = envp[var_i];
+		envp[var_i - 1] = NULL;
+	}
 }
 
 t_builtin	get_builtin(char *cmd)
@@ -82,7 +82,7 @@ t_builtin	get_builtin(char *cmd)
 int	run_builtin(t_list *argv_lst, char ***envp)
 {
 	char	**args;
-	int	status;
+	int		status;
 
 	args = create_args(argv_lst);
 	if (!args)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:10:48 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/28 12:08:28 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:06:30 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	is_n(char *arg)
 int	ft_echo(char **argv, char ***envp)
 {
 	int		i;
-	int	flag;
+	int		flag;
 
 	(void)envp;
 	i = 0;
@@ -44,6 +44,6 @@ int	ft_echo(char **argv, char ***envp)
 			write(1, " ", 1);
 	}
 	if (!flag)
-		write(1, "\n", 1);	
+		write(1, "\n", 1);
 	return (0);
 }

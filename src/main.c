@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/30 09:42:20 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:23:51 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ static void	ft_readline_loop(t_root *r)
 	}
 	else
 		run_pipeline(r);
-	if (close_temps() != 0)
-		free_exit(r, errno);
+	// if (close_temps() != 0)
+	// 	free_exit(r, errno);
 }
 
 static void	init_root(t_root *r, char **envp)

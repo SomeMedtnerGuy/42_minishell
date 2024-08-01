@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_value.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:25:26 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/25 19:29:01 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:08:41 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,26 @@ char	*get_env_value(char *start, char **envp)
 	}
 	free(key);
 	return (NULL);
+}
+
+void	update_env(char *name, char *value, char ***envp)
+{
+	int	i;
+	size_t	len;
+	
+	i = 0;
+	len = ft_strlen(name);
+	
+	while (((*envp)[i]))
+	{
+		if (ft_strncmp(name, (*envp)[i], len) == 0 && (*envp)[i][len] == '=')
+		{
+			free((*envp)[i]);
+			(*envp)[i] = ft_strjoin_free(ft_strjoin(name,"="),
+							ft_strdup(value));
+			return ;
+		}
+		i++;
+	}
+	
 }
