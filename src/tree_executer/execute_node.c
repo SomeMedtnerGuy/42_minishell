@@ -95,12 +95,11 @@ void	execute_exec(t_exec *node, t_root *r)
 	}
 	if (get_builtin(node->argv->content))
 	{
-		//TODO: make exit work
-		//idea: 
-		//dup node->argv
-		//free_tree
-		//run builtin with dup
-		//exit will free dup and envp
+		if (ft_strncmp(node->argv->content, "exit", 5) == 0)
+		{
+			free_tree(r->tree);
+			free_exit(r, 0);
+		}
 		builtin_status = run_builtin(node->argv, &r->envp);
 		free_tree(r->tree);
 		free_exit(r, builtin_status);

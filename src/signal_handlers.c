@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/27 10:54:09 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/30 12:43:10 by ndo-vale         ###   ########.fr       */
+/*   Created: 2024/08/01 20:56:03 by ndo-vale          #+#    #+#             */
+/*   Updated: 2024/08/01 20:56:09 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-//void	set_sig_hd(void)
-void	set_signal_heredoc(void)
-{
-	signal(SIGINT, SIG_DFL);
-/*	signal(SIGQUIT, SIG_DFL);
-} //TODO: Organize this plzz
 
 int	setget_signo(int action, int ntoset)
 {
@@ -30,7 +23,7 @@ int	setget_signo(int action, int ntoset)
 	return (0);
 }
 
-void	signal_handler(int signo)
+void	signal_handler_default(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -39,24 +32,15 @@ void	signal_handler(int signo)
 		rl_on_new_line();
 		rl_redisplay();
 		setget_signo(SET, SIGINT);
-	}*/
-	signal(SIGQUIT, SIG_IGN);
+	}
 }
-
-void	psignal_handler_hd(int signo)
+void	signal_handler_pipeline(int signo)
 {
-	(void)signo;
-}//Necessary?
-
-//void	set_signals(void)
-void	set_signal_default(void)
-{
-	//signal(SIGINT, signal_handler);
-	signal(SIGINT, signal_handler_default);
-	signal(SIGQUIT, SIG_IGN);
-}
-void	set_signal_pipeline(void)
-{
-	signal(SIGINT, signal_handler_pipeline);
-	signal(SIGQUIT, SIG_IGN);
+	if (signo == SIGINT)
+	{
+		rl_replace_line("", 0);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		setget_signo(SET, SIGINT);
+	}
 }

@@ -20,7 +20,8 @@ RM	= rm -rf
 SRC_DIR	= src/
 OBJ_DIR	= obj/
 
-SRCS	= $(addprefix $(SRC_DIR), main.c free_exit.c signals.c handle_syntax.c \
+SRCS	= $(addprefix $(SRC_DIR), main.c free_exit.c signals.c signal_handlers.c \
+			handle_syntax.c \
 	  		$(addprefix tokenizer/, tokenize_line.c tokenize_line2.c \
 			tokenizer_parsers.c tokenizer_exit_free.c) \
 			tokenlst_helpers.c get_env_value.c \

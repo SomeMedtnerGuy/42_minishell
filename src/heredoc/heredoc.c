@@ -39,7 +39,8 @@ static void	child(char *eof, char *filename, t_root *r)
 		perror("malloc");
 		free_exit(r, errno);
 	}
-	set_sig_hd();
+	//set_sig_hd();
+	set_signal_heredoc();
 	if (save_envp(r->envp) != 0)
 	{
 		perror("envp save");
@@ -51,7 +52,8 @@ static void	child(char *eof, char *filename, t_root *r)
 
 static char	*handle_heredoc_result(int cp_status, char *filename, t_root *r)
 {
-	signal(SIGINT, signal_handler);
+	//signal(SIGINT, signal_handler);
+	set_signal_default();
 	if (WIFEXITED(cp_status))
 	{
 		if (WEXITSTATUS(cp_status) == 0)
@@ -79,12 +81,12 @@ char	*heredoc(char *eof, t_root *r)
 	pid_t	cpid;
 	int		cp_status;
 
-	if (!eof)
+	/*if (!eof)
 	{
 		r->exit_code = 1;
 		ft_putstr_fd("ambiguous redirect\n", 2);
 		return (NULL);
-	}
+	}*/
 	filename = ft_strjoin_free(ft_strdup(".tempfiles/tempheredoc"),
 			ft_itoa(get_next_rn()));
 	if (!filename)

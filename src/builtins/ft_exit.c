@@ -14,8 +14,7 @@
 
 int	ft_exit(char **argv, char ***envp)
 {
-	(void)argv;
-	(void)envp;
-	printf("implementation of builtin 'exit' missing.");
-	return (0);
+	ft_matrix_free((void ***)envp);
+	ft_matrix_free((void ***)&argv);
+	exit(0);
 }

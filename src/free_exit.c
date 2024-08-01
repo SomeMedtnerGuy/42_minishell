@@ -12,13 +12,13 @@
 
 #include "../include/minishell.h"
 
-int	close_temps(void)
+int	close_temps(char *tempfiles_dir)
 {
 	DIR	*tempdir;
 	struct dirent	*file;
 	char	*filename;
 	
-	tempdir = opendir(".tempfiles");
+	tempdir = opendir(tempfiles_dir);
 	if (!tempdir)
 		return (errno);
 	file = readdir(tempdir);
@@ -26,7 +26,7 @@ int	close_temps(void)
 		return (errno);
 	while (file)
 	{
-		filename = ft_strjoin(".tempfiles/", file->d_name);
+		filename = ft_strjoin(tempfiles_dir, file->d_name);
 		if (!filename)
 			return (errno);
 		if ((file->d_name)[0] != '.')

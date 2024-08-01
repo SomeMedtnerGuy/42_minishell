@@ -112,18 +112,24 @@ typedef struct s_root
 	t_node	*tree;
 	int		exit_code;
 	int		prev_exit_code;
+	char		tempfiles_dir[1024];
 }	t_root;
 
 // FREE_EXIT.C
 void		free_exit(t_root *r, int exit_code);
-int		close_temps(void);
+int		close_temps(char *tempfiles_dir);
 
 // SIGNALS.C
 int			setget_signo(int action, int ntoset);
-void		set_sig_hd(void);
-void		signal_handler(int signo);
+//void		set_sig_hd(void);
+//void		signal_handler(int signo);
+void	set_signal_heredoc(void);
+void	signal_handler_default(int signo);
+void	signal_handler_pipeline(int signo);
 void		psignal_handler_hd(int signo);
-void		set_signals(void);
+//void		set_signals(void);
+void	set_signal_default(void);
+void	set_signal_pipeline(void);
 
 // HANDLE_SYNTAX.C
 int			handle_syntax(char *ptr);
@@ -189,6 +195,7 @@ void		free_tree(t_node *node);
 
 // EXECUTE_NODE.C
 char	**create_args(t_list *argv);
+void		execute_redirs(t_redir *node, t_root *r);
 void		execute_node(t_node *node, t_root *r);
 
 // COMMAND_HELPERS.C
