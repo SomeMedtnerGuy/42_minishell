@@ -52,8 +52,7 @@ typedef struct s_flags
 {
 	int	sq;
 	int	dq;
-	int	important;
-	int	start;
+	char	prev;
 	int	error;
 }	t_flags;
 

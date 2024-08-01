@@ -18,6 +18,7 @@ int     ft_cd(char **argv, char ***envp)
 
 	(void)argv;
 	(void)envp;
+	
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (errno);
