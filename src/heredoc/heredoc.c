@@ -46,7 +46,6 @@ static void	child(char *eof, char *filename, t_root *r)
 		free_exit(r, errno);
 	}
 	ft_matrix_free((void ***)&r->envp);
-	free(r->cwd);
 	create_heredoc_file(filename, eof);
 }
 

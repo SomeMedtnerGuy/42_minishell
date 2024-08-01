@@ -64,9 +64,9 @@ void	execute_redirs(t_redir *node, t_root *r)
 	{
 		if (!node->file)
 		{
-			
-			//TODO: print ambiguous. Somehow should not continue running. 
-			// Maybe even exit from here? with exit code 1.
+			ft_printf("ambiguous redirect\n");
+			free_tree(r->tree);
+			free_exit(r, 1);
 		}
 		fd = open(node->file, get_redir_mode(node->redir_type), 0644);
 		if (fd == -1)

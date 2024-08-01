@@ -12,9 +12,37 @@
 
 #include "../include/minishell.h"
 
+int	close_temps(void)
+{
+	DIR	*tempdir;
+	struct dirent	*file;
+	char	*filename;
+	
+	tempdir = opendir(".tempfiles");
+	if (!tempdir)
+		return (errno);
+	file = readdir(tempdir);
+	if (errno)
+		return (errno);
+	while (file)
+	{
+		filename = ft_strjoin(".tempfiles/", file->d_name);
+		if (!filename)
+			return (errno);
+		if ((file->d_name)[0] != '.')
+			unlink(filename);
+		free(filename);
+		errno = 0;
+		file = readdir(tempdir);
+		if (errno)
+			return (errno);
+	}
+	closedir(tempdir);
+	return (errno);
+}
+
 void	free_exit(t_root *r, int exit_code)
 {
 	ft_matrix_free((void ***)&r->envp);
-	free(r->cwd); //TODO: Hopefully not necessary
 	exit(exit_code);
 }

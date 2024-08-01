@@ -14,19 +14,10 @@
 
 void	get_line(t_root *r)
 {
-	char	*prompt;
-
-	prompt = ft_strjoin(r->cwd, PROMPT);
-	if (!prompt)
-	{
-		perror("malloc");
-		free_exit(r, errno);
-	}
 	setget_signo(SET, 0);
-	r->line = readline(prompt);
+	r->line = readline(PROMPT);
 	if (setget_signo(GET, 0) == 2)
 		r->exit_code = 130;
-	free(prompt);
 	if (!r->line)
 	{
 		ft_putstr_fd(CTRD_EXIT_MSG, 1);
@@ -82,7 +73,8 @@ static void	ft_readline_loop(t_root *r)
 	}
 	else
 		run_pipeline(r);
-	//TODO: cleanup .tempfiles folder;
+	if (close_temps() != 0)
+		free_exit(r, errno);
 }
 
 static void	init_root(t_root *r, char **envp)
@@ -93,12 +85,6 @@ static void	init_root(t_root *r, char **envp)
 	{
 		perror("malloc");
 		exit(errno);
-	}
-	r->cwd = getcwd(NULL, 0); //TODO: Hopefully not necessary
-	if (!r->cwd)
-	{
-		perror("malloc");
-		free_exit(r, errno);
 	}
 	r->exit_code = 0;
 	r->prev_exit_code = 0;

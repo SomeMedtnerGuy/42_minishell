@@ -16,7 +16,7 @@ static void	get_heredoc_lines(char *eof_lit, int fd)
 {
 	char	*line;
 
-	line = readline(">");
+	line = readline("> ");
 	while (line && ft_strncmp(line, eof_lit, ft_strlen(eof_lit) + 1) != 0)
 	{
 		line = find_and_expand(line);

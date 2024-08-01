@@ -19,12 +19,13 @@
 # include <signal.h> // signals
 # include <sys/wait.h> // wait for child process
 # include <fcntl.h> // file manipulation
+# include <dirent.h> // folder manipulation
 # include "../libft/libft.h" // libft
 
 // MESSAGES
 # define LAUNCH_ERROR "minishell does not accept extra options. \
 Please launch it without arguments.\n"
-# define PROMPT "\nEnter your command: "
+# define PROMPT "Enter your command: "
 # define CTRD_EXIT_MSG "exit\n"
 # define SYNTAX_ERROR "syntax error near unexpected token `"
 # define SYNTAX_ERROR_END "syntax error near unexpected token `newline'\n"
@@ -52,7 +53,7 @@ typedef struct s_flags
 {
 	int	sq;
 	int	dq;
-	char	prev;
+	int	prev;
 	int	error;
 }	t_flags;
 
@@ -109,13 +110,13 @@ typedef struct s_root
 	char	**envp;
 	t_token	*token_lst;
 	t_node	*tree;
-	char	*cwd;
 	int		exit_code;
 	int		prev_exit_code;
 }	t_root;
 
 // FREE_EXIT.C
 void		free_exit(t_root *r, int exit_code);
+int		close_temps(void);
 
 // SIGNALS.C
 int			setget_signo(int action, int ntoset);
@@ -150,6 +151,7 @@ void		exit_from_tokenizer(t_tokenizer_data *td, t_root *r,
 int			get_env_key_len(char *start);
 char		*get_env_key(char *start);
 char		*get_env_value(char *start, char **envp);
+void    	update_env(char *name, char *value, char ***envp);
 
 // TOKENLST_HELPERS.C
 t_token		*tokennew(char type, char *content);
