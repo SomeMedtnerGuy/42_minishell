@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:25:26 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/01 15:08:41 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:03:06 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char	*get_env_value(char *start, char **envp)
 		return (free(key), ft_strdup("$"));
 	if (!envp)
 		return (free(key), NULL);
-	
 	len = ft_strlen(key);
 	ptr = envp;
 	while (*ptr)
@@ -64,22 +63,20 @@ char	*get_env_value(char *start, char **envp)
 
 void	update_env(char *name, char *value, char ***envp)
 {
-	int	i;
+	int		i;
 	size_t	len;
-	
+
 	i = 0;
 	len = ft_strlen(name);
-	
 	while (((*envp)[i]))
 	{
 		if (ft_strncmp(name, (*envp)[i], len) == 0 && (*envp)[i][len] == '=')
 		{
 			free((*envp)[i]);
-			(*envp)[i] = ft_strjoin_free(ft_strjoin(name,"="),
-							ft_strdup(value));
+			(*envp)[i] = ft_strjoin_free(ft_strjoin(name, "="),
+					ft_strdup(value));
 			return ;
 		}
 		i++;
 	}
-	
 }

@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   handle_syntax_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/27 10:54:09 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 16:27:12 by fivieira         ###   ########.fr       */
+/*   Created: 2024/08/02 16:07:40 by fivieira          #+#    #+#             */
+/*   Updated: 2024/08/02 16:08:23 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	set_signal_heredoc(void)
+void	init_flags(t_flags *f)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	set_signal_default(void)
-{
-	signal(SIGINT, signal_handler_default);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	set_signal_pipeline(void)
-{
-	signal(SIGINT, signal_handler_pipeline);
-	signal(SIGQUIT, SIG_IGN);
+	f->sq = 0;
+	f->dq = 0;
+	f->prev = PIPE;
+	f->error = 0;
 }

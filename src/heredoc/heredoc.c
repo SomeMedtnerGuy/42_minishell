@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:25:08 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 12:52:31 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/02 15:22:51 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 static int	save_envp(char **envp)
 {
-	int	fd;
-	int	i;
+	int		fd;
+	int		i;
 	char	*envp_filename;
 
 	envp_filename = ft_strjoin(get_tempfiles_folder(), ENVP_FILENAME);
@@ -46,7 +46,6 @@ static void	child(char *eof, char *filename, t_root *r)
 		perror("malloc");
 		free_exit(r, errno);
 	}
-	//set_sig_hd();
 	set_signal_heredoc();
 	if (save_envp(r->envp) != 0)
 	{
@@ -59,7 +58,6 @@ static void	child(char *eof, char *filename, t_root *r)
 
 static char	*handle_heredoc_result(int cp_status, char *filename, t_root *r)
 {
-	//signal(SIGINT, signal_handler);
 	set_signal_default();
 	if (WIFEXITED(cp_status))
 	{
@@ -88,8 +86,9 @@ char	*heredoc(char *eof, t_root *r)
 	pid_t	cpid;
 	int		cp_status;
 
-	filename = ft_strjoin_free(ft_strdup(r->tempfiles_dir), ft_strjoin_free(ft_strdup("tempheredoc"),
-			ft_itoa(get_next_rn())));
+	filename = ft_strjoin_free(ft_strdup(r->tempfiles_dir),
+			ft_strjoin_free(ft_strdup("tempheredoc"),
+				ft_itoa(get_next_rn())));
 	if (!filename)
 		return (NULL);
 	cpid = fork();

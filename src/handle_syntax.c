@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_syntax.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:31:04 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/01 14:13:08 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:08:18 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,6 @@ static void	handle_redirs(t_flags *f, char **ptr)
 	else if (**ptr == *(*ptr + 1))
 		*ptr += 1;
 	f->prev = REDIR;
-}
-
-void	init_flags(t_flags *f)
-{
-	f->sq = 0;
-	f->dq = 0;
-	f->prev = PIPE;
-	f->error = 0;
 }
 
 int	handle_syntax(char *ptr)

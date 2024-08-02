@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 20:56:03 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/01 20:56:09 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:10:26 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	signal_handler_default(int signo)
 		setget_signo(SET, SIGINT);
 	}
 }
+
 void	signal_handler_pipeline(int signo)
 {
 	if (signo == SIGINT)

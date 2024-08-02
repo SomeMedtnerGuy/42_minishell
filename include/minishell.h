@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 12:49:52 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:41:10 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,33 +107,32 @@ typedef struct s_pipe
 // Root struct
 typedef struct s_root
 {
-	char	*line;
-	char	**envp;
-	t_token	*token_lst;
-	t_node	*tree;
-	int		exit_code;
-	int		prev_exit_code;
+	char		*line;
+	char		**envp;
+	t_token		*token_lst;
+	t_node		*tree;
+	int			exit_code;
+	int			prev_exit_code;
 	char		tempfiles_dir[1024];
 }	t_root;
 
 // FREE_EXIT.C
 void		free_exit(t_root *r, int exit_code);
-int		close_temps(char *tempfiles_dir);
+int			close_temps(char *tempfiles_dir);
 
 // SIGNALS.C
+void		signal_handler_default(int signo);
+void		signal_handler_pipeline(int signo);
+void		set_signal_heredoc(void);
+void		set_signal_default(void);
+void		set_signal_pipeline(void);
 int			setget_signo(int action, int ntoset);
-//void		set_sig_hd(void);
-//void		signal_handler(int signo);
-void	set_signal_heredoc(void);
-void	signal_handler_default(int signo);
-void	signal_handler_pipeline(int signo);
-void		psignal_handler_hd(int signo);
-//void		set_signals(void);
-void	set_signal_default(void);
-void	set_signal_pipeline(void);
 
 // HANDLE_SYNTAX.C
 int			handle_syntax(char *ptr);
+
+// HANDLE_SYNTAX.C
+void		init_flags(t_flags *f);
 
 // TOKENIZE_LINE.C
 void		tokenize_line(t_root *r);
@@ -158,7 +157,7 @@ void		exit_from_tokenizer(t_tokenizer_data *td, t_root *r,
 int			get_env_key_len(char *start);
 char		*get_env_key(char *start);
 char		*get_env_value(char *start, char **envp);
-void    	update_env(char *name, char *value, char ***envp);
+void		update_env(char *name, char *value, char ***envp);
 
 // TOKENLST_HELPERS.C
 t_token		*tokennew(char type, char *content);
@@ -189,13 +188,14 @@ char		*find_and_expand(char *line);
 void		create_heredoc_file(char *filename, char *eof);
 
 // GET_ENV_VALUE_HD.C
-char    *get_env_value_hd(char *start);
+char		*get_env_value_hd(char *start);
+int			create_envp_file(void);
 
 // FREE_TREE.C
 void		free_tree(t_node *node);
 
 // EXECUTE_NODE.C
-char	**create_args(t_list *argv);
+char		**create_args(t_list *argv);
 void		execute_redirs(t_redir *node, t_root *r);
 void		execute_node(t_node *node, t_root *r);
 
@@ -208,8 +208,9 @@ t_builtin	get_builtin(char *cmd);
 void		delete_var(char *var, char **envp);
 int			get_envp_i(char *key, char **envp);
 int			is_key_valid(char *key);
-int 		verify_getcwd(char *cwd, size_t size);
+int			verify_getcwd(char *cwd, size_t size);
 int			verify_change_dir(char *dir);
+
 // BUILTINS
 int			ft_echo(char **argv, char ***envp);
 int			ft_cd(char **argv, char ***envp);

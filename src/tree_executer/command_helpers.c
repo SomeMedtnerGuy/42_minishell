@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_helpers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:32:32 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/28 17:35:22 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:00:36 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ char	*validate_cmd(char *cmd, char **env)
 		return (ft_strdup(cmd));
 	path_str = NULL;
 	i = -1;
-	errno = 0;
+	// errno = 0; isto é preciso?
 	cmd_paths = get_cmd_folders(env);
-	if (errno)
-		return (NULL);
+	// if (errno) isto é preciso?
+	// 	return (NULL);
 	if (!cmd_paths)
 		return (ft_strdup("INVALID"));
 	while (cmd_paths && cmd_paths[++i])

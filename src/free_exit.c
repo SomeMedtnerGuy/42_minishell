@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:22:59 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 13:58:52 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:01:29 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	close_temps(char *tempfiles_dir)
 {
-	DIR	*tempdir;
+	DIR				*tempdir;
 	struct dirent	*file;
-	char	*filename;
-	
+	char			*filename;
+
 	tempdir = opendir(tempfiles_dir);
 	if (!tempdir)
 		return (errno);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_value_hd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 09:15:54 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 11:06:01 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:44:22 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,8 @@ static char	*search_and_return_value(char *key, int len)
 	int		fd;
 	char	*line;
 	char	*value;
-	char	*envp_filename;
-	
-	envp_filename = ft_strjoin(get_tempfiles_folder(), ENVP_FILENAME);
-	if (!envp_filename)
-		return (NULL);
-	fd = open(envp_filename, O_RDONLY);
-	free(envp_filename);
+
+	fd = create_envp_file();
 	if (fd < 0)
 		return (NULL);
 	line = get_next_line(fd);
@@ -69,4 +64,19 @@ char	*get_env_value_hd(char *start)
 		return (free(key), ft_strdup("$"));
 	len = ft_strlen(key);
 	return (search_and_return_value(key, len));
+}
+
+int	create_envp_file(void)
+{
+	int		fd;
+	char	*envp_filename;
+
+	envp_filename = ft_strjoin(get_tempfiles_folder(), ENVP_FILENAME);
+	if (!envp_filename)
+		return (0);
+	fd = open(envp_filename, O_RDONLY);
+	free(envp_filename);
+	if (fd < 0)
+		return (0);
+	return (fd);
 }
