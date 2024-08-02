@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/01 21:24:14 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/02 14:37:38 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	run_pipeline(t_root *r)
 static void	ft_readline_loop(t_root *r)
 {
 	get_line(r);
+	add_history(r->line);
 	if (handle_syntax(r->line) != 0)
 	{
 		r->exit_code = 2;
@@ -88,6 +89,7 @@ static void	ft_readline_loop(t_root *r)
 	{
 		set_signal_pipeline();
 		run_pipeline(r);
+		set_signal_default();
 	}
 	if (close_temps(r->tempfiles_dir) != 0)
 	{
@@ -125,7 +127,6 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_putstr_fd(LAUNCH_ERROR, 2), 0);
 	(void)argv;
 	init_root(&r, envp);
-	//set_signals();
 	set_signal_default();
 	while (1)
 		ft_readline_loop(&r);

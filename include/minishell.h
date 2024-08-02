@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/01 21:21:55 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:49:52 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 // INCLUDES
 # include <readline/readline.h> // readline
+# include <readline/history.h>
 # include <errno.h> // error codes
 # include <signal.h> // signals
 # include <sys/wait.h> // wait for child process
@@ -207,6 +208,8 @@ t_builtin	get_builtin(char *cmd);
 void		delete_var(char *var, char **envp);
 int			get_envp_i(char *key, char **envp);
 int			is_key_valid(char *key);
+int 		verify_getcwd(char *cwd, size_t size);
+int			verify_change_dir(char *dir);
 // BUILTINS
 int			ft_echo(char **argv, char ***envp);
 int			ft_cd(char **argv, char ***envp);
