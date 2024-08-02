@@ -6,18 +6,24 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:25:08 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/01 21:22:55 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:52:31 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/heredoc.h"
 
 static int	save_envp(char **envp)
 {
 	int	fd;
 	int	i;
+	char	*envp_filename;
 
-	fd = open(ENVP_FILENAME, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	envp_filename = ft_strjoin(get_tempfiles_folder(), ENVP_FILENAME);
+	if (!envp_filename)
+		return (1);
+	fd = open(envp_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	free(envp_filename);
 	if (fd < 0)
 		return (1);
 	i = -1;
@@ -32,6 +38,7 @@ static int	save_envp(char **envp)
 
 static void	child(char *eof, char *filename, t_root *r)
 {
+	init_tempfiles_path(r->tempfiles_dir);
 	eof = ft_strdup(eof);
 	free_tree(r->tree);
 	if (!eof)
@@ -81,14 +88,8 @@ char	*heredoc(char *eof, t_root *r)
 	pid_t	cpid;
 	int		cp_status;
 
-	/*if (!eof)
-	{
-		r->exit_code = 1;
-		ft_putstr_fd("ambiguous redirect\n", 2);
-		return (NULL);
-	}*/
-	filename = ft_strjoin_free(ft_strdup(".tempfiles/tempheredoc"),
-			ft_itoa(get_next_rn()));
+	filename = ft_strjoin_free(ft_strdup(r->tempfiles_dir), ft_strjoin_free(ft_strdup("tempheredoc"),
+			ft_itoa(get_next_rn())));
 	if (!filename)
 		return (NULL);
 	cpid = fork();

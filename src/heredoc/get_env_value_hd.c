@@ -6,11 +6,12 @@
 /*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 09:15:54 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/31 11:04:28 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:06:01 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/heredoc.h"
 
 void	close_gnl(int fd)
 {
@@ -30,8 +31,13 @@ static char	*search_and_return_value(char *key, int len)
 	int		fd;
 	char	*line;
 	char	*value;
-
-	fd = open(ENVP_FILENAME, O_RDONLY);
+	char	*envp_filename;
+	
+	envp_filename = ft_strjoin(get_tempfiles_folder(), ENVP_FILENAME);
+	if (!envp_filename)
+		return (NULL);
+	fd = open(envp_filename, O_RDONLY);
+	free(envp_filename);
 	if (fd < 0)
 		return (NULL);
 	line = get_next_line(fd);

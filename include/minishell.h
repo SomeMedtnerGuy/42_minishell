@@ -42,7 +42,7 @@ Please launch it without arguments.\n"
 # define SET 0
 # define GET 1
 # define BUILTINS_AM 7
-# define ENVP_FILENAME ".tempfiles/env_filename_because_we_gotta_find_the\
+# define ENVP_FILENAME "/env_filename_because_we_gotta_find_the\
 _dumbest_ways_to_get_around_this_damn_subject"
 
 typedef int	(*t_builtin)(char **, char ***);

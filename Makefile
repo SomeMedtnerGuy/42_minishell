@@ -28,7 +28,7 @@ SRCS	= $(addprefix $(SRC_DIR), main.c free_exit.c signals.c signal_handlers.c \
 			$(addprefix tree_builder/, build_tree.c free_tree.c \
 			node_constructors.c) \
 			$(addprefix heredoc/, set_heredocs.c heredoc.c \
-			heredoc_helpers.c create_heredoc_file.c \
+			heredoc_helpers.c create_heredoc_file.c tempfiles_folder.c \
 			get_env_value_hd.c) \
 			$(addprefix tree_executer/, execute_node.c command_helpers.c) \
 			$(addprefix builtins/, builtins_utils.c ft_echo.c ft_cd.c \
