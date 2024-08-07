@@ -56,10 +56,7 @@ char	*validate_cmd(char *cmd, char **env)
 		return (ft_strdup(cmd));
 	path_str = NULL;
 	i = -1;
-	// errno = 0; isto é preciso?
 	cmd_paths = get_cmd_folders(env);
-	// if (errno) isto é preciso?
-	// 	return (NULL);
 	if (!cmd_paths)
 		return (ft_strdup("INVALID"));
 	while (cmd_paths && cmd_paths[++i])
@@ -74,4 +71,23 @@ char	*validate_cmd(char *cmd, char **env)
 	free(path_str);
 	ft_matrix_free((void ***)&cmd_paths);
 	return (ft_strdup("INVALID"));
+}
+
+char	**create_args(t_list *argv)
+{
+	char	**args;
+	int		i;
+
+	args = (char **)ft_calloc(ft_lstsize(argv) + 1, sizeof(char *));
+	if (!args)
+		return (NULL);
+	i = -1;
+	while (argv)
+	{
+		args[++i] = ft_strdup((char *)argv->content);
+		if (!args[i])
+			return (ft_matrix_free((void ***)&args), NULL);
+		argv = argv->next;
+	}
+	return (args);
 }

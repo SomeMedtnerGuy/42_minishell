@@ -26,7 +26,7 @@ t_redir	*create_redir(char *file, char redir_type)
 	return (redir_node);
 }
 
-t_exec	*create_exec(char **envp)
+t_exec	*create_exec(void)
 {
 	t_exec	*exec_node;
 
@@ -34,7 +34,6 @@ t_exec	*create_exec(char **envp)
 	if (!exec_node)
 		return (NULL);
 	exec_node->type = EXEC;
-	exec_node->envp = envp;
 	exec_node->redirs = NULL;
 	exec_node->argv = NULL;
 	return (exec_node);

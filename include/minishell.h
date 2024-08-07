@@ -26,10 +26,18 @@
 // MESSAGES
 # define LAUNCH_ERROR "minishell does not accept extra options. \
 Please launch it without arguments.\n"
+# define TEMPFILES_DIR "/.tempfiles/"
 # define PROMPT "Enter your command: "
 # define CTRD_EXIT_MSG "exit\n"
 # define SYNTAX_ERROR "syntax error near unexpected token `"
 # define SYNTAX_ERROR_END "syntax error near unexpected token `newline'\n"
+# define CORE_DUMP_MSG "Quit (core dumped)\n"
+# define CMD_NOT_FOUND_MSG ": command not found"
+# define PERMISSION_DENIED_MSG ": permission denied"
+
+// CODES
+# define CTRLC_SIGNO 2
+# define SYNTAX_ERROR_CODE 2
 
 // TYPES OF NODES
 # define REDIR 0
@@ -37,6 +45,7 @@ Please launch it without arguments.\n"
 # define PIPE 2
 
 // MISCELLANEOUS DEFINES
+# define BUFFER_MAX_SIZE 1024
 # define SPACES " \t\n\v\f\r"
 # define TOKEN_CHARS "<>|"
 # define REDIR_TYPES "<>+-"
@@ -47,6 +56,15 @@ Please launch it without arguments.\n"
 _dumbest_ways_to_get_around_this_damn_subject"
 
 typedef int	(*t_builtin)(char **, char ***);
+
+
+
+
+//TEST
+void	signal_handler_pipeline_childs(int signo);
+
+
+
 
 // STRUCTS
 // Syntax handler
@@ -94,7 +112,6 @@ typedef struct s_exec
 	int		type;
 	t_list	*argv;
 	t_redir	*redirs;
-	char	**envp; //TODO; necessary?
 }	t_exec;
 
 typedef struct s_pipe
@@ -113,10 +130,17 @@ typedef struct s_root
 	t_node		*tree;
 	int			exit_code;
 	int			prev_exit_code;
-	char		tempfiles_dir[1024];
+	char		tempfiles_dir[BUFFER_MAX_SIZE];
 }	t_root;
 
+// GENERAL_HELPERS.C
+void	print_buffered_error(char *origin, char *msg);
+
+// MAIN_HELPERS.C
+int			get_line(t_root *r);
+
 // FREE_EXIT.C
+void		exit_from_te(t_root *r, char *msg, int exit_code);
 void		free_exit(t_root *r, int exit_code);
 int			close_temps(char *tempfiles_dir);
 
@@ -131,7 +155,7 @@ int			setget_signo(int action, int ntoset);
 // HANDLE_SYNTAX.C
 int			handle_syntax(char *ptr);
 
-// HANDLE_SYNTAX.C
+// HANDLE_SYNTAX_UTILS.C
 void		init_flags(t_flags *f);
 
 // TOKENIZE_LINE.C
@@ -171,7 +195,7 @@ int			build_tree(t_root *r);
 
 // NODE_CONSTRUCTORS.C
 t_redir		*create_redir(char *file, char redir_type);
-t_exec		*create_exec(char **envp);
+t_exec		*create_exec(void);
 t_pipe		*create_pipe(t_node *left, t_node *right);
 
 // SET_HEREDOCS.C
@@ -198,9 +222,20 @@ void		free_tree(t_node *node);
 char		**create_args(t_list *argv);
 void		execute_redirs(t_redir *node, t_root *r);
 void		execute_node(t_node *node, t_root *r);
+void		apply_pipe_and_execute(t_node *node, t_root *r, int *p,
+			int multipurp_fd);
+void		failed_execve_aftermath(char *cmd_path, char **args, t_root *r);
+
+//EXECUTE_NODE_HELPERS.C
+int			get_redir_mode(char type);
+int			get_redir_fd(char type);
+void		close_pipe(int *p);
+void		close_pipe_and_exit(int *p, t_root *r, char *msg);
+void		try_running_builtin(t_exec *node, t_root *r);
 
 // COMMAND_HELPERS.C
 char		*validate_cmd(char *cmd, char **env);
+char		**create_args(t_list *argv);
 
 // BUILTIN_UTILS.C
 int			run_builtin(t_list *argv_lst, char ***envp);
@@ -210,12 +245,15 @@ int			get_envp_i(char *key, char **envp);
 int			is_key_valid(char *key);
 int			verify_getcwd(char *cwd, size_t size);
 int			verify_change_dir(char *dir);
+int			count_envs(char **envp);
+int			fill_new_envp(char **new, char ***old_ref);
 
 // BUILTINS
 int			ft_echo(char **argv, char ***envp);
 int			ft_cd(char **argv, char ***envp);
 int			ft_pwd(char **argv, char ***envp);
 int			ft_export(char **argv, char ***envp);
+
 int			ft_unset(char **argv, char ***envp);
 int			ft_env(char **argv, char ***envp);
 int			ft_exit(char **argv, char ***envp);

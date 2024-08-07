@@ -36,6 +36,7 @@ static void	get_heredoc_lines(char *eof_lit, int fd)
 		ft_putstr_fd("warning: here-document delimited by end-of-file\n", 2);
 	free(line);
 	close(fd);
+	rl_clear_history();
 	exit(0);
 }
 

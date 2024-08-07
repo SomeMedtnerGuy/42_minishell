@@ -45,3 +45,16 @@ void	signal_handler_pipeline(int signo)
 		setget_signo(SET, SIGINT);
 	}
 }
+
+void	signal_handler_pipeline_childs(int signo)
+{
+	if (signo == SIGINT)
+	{
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		setget_signo(SET, SIGINT);
+	}
+}
+
+
+//TODO change sigquit to custom

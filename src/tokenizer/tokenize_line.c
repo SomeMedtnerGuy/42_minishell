@@ -12,14 +12,6 @@
 
 #include "../../include/minishell.h"
 
-void	handle_syntax_error(t_tokenizer_data *td, int *exit_code, char *line)
-{
-	ft_putstr_fd(SYNTAX_ERROR, 2);
-	*exit_code = 2;
-	free_tokenizer(td);
-	free(line);
-}
-
 static void	init_data(t_tokenizer_data *td, t_root *r)
 {
 	td->ptr = r->line;
@@ -63,8 +55,6 @@ void	tokenize_line(t_root *r)
 				exit_from_tokenizer(&td, r, "malloc", errno);
 			td.ptr += 1;
 		}
-		if (r->exit_code == 2)
-			return ;
 	}
 	if (finish_tokenizer(&td, r) != 0)
 		return ;

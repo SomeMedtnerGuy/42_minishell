@@ -59,7 +59,8 @@ t_node	*parse_exec(t_token **ptr, t_root *r)
 {
 	t_exec	*node;
 
-	node = create_exec(r->envp);
+	(void)r;
+	node = create_exec();
 	if (!node)
 		return (NULL);
 	while (*ptr && (*ptr)->type != '|')

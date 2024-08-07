@@ -41,6 +41,14 @@ int	close_temps(char *tempfiles_dir)
 	return (errno);
 }
 
+void	exit_from_te(t_root *r, char *msg, int exit_code)
+{
+	if (msg)
+		perror(msg);
+	free_tree(r->tree);
+	free_exit(r, exit_code);
+}
+
 void	free_exit(t_root *r, int exit_code)
 {
 	ft_matrix_free((void ***)&r->envp);
