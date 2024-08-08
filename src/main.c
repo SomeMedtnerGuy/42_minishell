@@ -84,7 +84,7 @@ void	ft_exit_parent(t_root *r, t_exec *node)
 		}
 	}
 	free_tree(r->tree);
-	free_exit(r, r->prev_exit_code); //TODO: Implement same in exit in pipeline
+	free_exit(r, r->prev_exit_code);
 }
 
 static void	execute_builtin_in_parent(t_root *r)
@@ -105,11 +105,9 @@ static void	ft_readline_loop(t_root *r)
 	if (get_line(r) != 0)
 		return ;
 	add_history(r->line);
-	if (handle_syntax(r->line) != 0)
-	{
-		r->exit_code = SYNTAX_ERROR_CODE;
+	handle_syntax(r->line, &r->exit_code);
+	if (r->exit_code)
 		return ;
-	}	
 	tokenize_line(r);
 	if (r->exit_code != 0 || !r->token_lst)
 		return ;
@@ -150,7 +148,7 @@ static void	init_root(t_root *r, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_root	r;
-
+	
 	if (argc != 1)
 		return (ft_putstr_fd(LAUNCH_ERROR, STDERR_FILENO), 0);
 	(void)argv;
@@ -158,7 +156,9 @@ int	main(int argc, char **argv, char **envp)
 	set_signal_default();
 	while (1)
 	{
+		errno = 0;
 		ft_readline_loop(&r);
+		free(r.line);
 		if (close_temps(r.tempfiles_dir) != 0)
 		{
 			perror("close temps");

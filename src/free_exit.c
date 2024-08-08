@@ -55,3 +55,9 @@ void	free_exit(t_root *r, int exit_code)
 	rl_clear_history();
 	exit(exit_code);
 }
+
+void	clean_exit_minishell(t_root *r, int exit_code)
+{
+	ft_putstr_fd("exit", 2);
+	free_exit(r, exit_code);
+}

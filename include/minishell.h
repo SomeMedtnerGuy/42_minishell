@@ -73,7 +73,6 @@ typedef struct s_flags
 	int	sq;
 	int	dq;
 	int	prev;
-	int	error;
 }	t_flags;
 
 // Tokenizer
@@ -153,15 +152,14 @@ void		set_signal_pipeline(void);
 int			setget_signo(int action, int ntoset);
 
 // HANDLE_SYNTAX.C
-int			handle_syntax(char *ptr);
+void			handle_syntax(char *ptr, int *exit_code);
 
 // HANDLE_SYNTAX_UTILS.C
 void		init_flags(t_flags *f);
+void		print_syntax_error(char c);
 
 // TOKENIZE_LINE.C
 void		tokenize_line(t_root *r);
-void		handle_syntax_error(t_tokenizer_data *td,
-				int *exit_code, char *line);
 
 // TOKENIZE_LINE2.C
 int			update_token(char **token, char *start);

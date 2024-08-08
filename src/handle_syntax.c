@@ -12,12 +12,7 @@
 
 #include "../include/minishell.h"
 
-static void	print_syntax_error(char c)
-{
-	ft_putstr_fd(SYNTAX_ERROR, 2);
-	ft_putchar_fd(c, 2);
-	ft_putstr_fd("\'\n", 2);
-}
+
 
 static void	handle_quotes(t_flags *f, char q)
 {
@@ -33,29 +28,29 @@ static void	handle_quotes(t_flags *f, char q)
 	}
 }
 
-static void	handle_pipe(t_flags *f, char **ptr)
+static void	handle_pipe(t_flags *f, char **ptr, int *exit_code)
 {
 	if (f->prev == PIPE || f->prev == REDIR)
 	{
 		print_syntax_error(**ptr);
-		f->error = 1;
+		*exit_code = SYNTAX_ERROR_CODE;
 	}
 	f->prev = PIPE;
 }
 
-static void	handle_redirs(t_flags *f, char **ptr)
+static void	handle_redirs(t_flags *f, char **ptr, int *exit_code)
 {
 	if (f->prev == REDIR)
 	{
 		print_syntax_error(**ptr);
-		f->error = 1;
+		*exit_code = SYNTAX_ERROR_CODE;
 	}
 	else if (**ptr == *(*ptr + 1))
 		*ptr += 1;
 	f->prev = REDIR;
 }
 
-int	handle_syntax(char *ptr)
+void	handle_syntax(char *ptr, int *exit_code)
 {
 	t_flags	f;
 
@@ -67,16 +62,18 @@ int	handle_syntax(char *ptr)
 		else if (*ptr == '\"' || *ptr == '\'')
 			handle_quotes(&f, *ptr);
 		else if (*ptr == '>' || *ptr == '<')
-			handle_redirs(&f, &ptr);
+			handle_redirs(&f, &ptr, exit_code);
 		else if (*ptr == '|')
-			handle_pipe(&f, &ptr);
+			handle_pipe(&f, &ptr, exit_code);
 		else
 			f.prev = EXEC;
-		if (f.error)
-			return (1);
+		if (*exit_code)
+			return;
 		ptr += 1;
 	}
 	if (f.prev != EXEC || f.sq || f.dq)
-		return (ft_putstr_fd(SYNTAX_ERROR_END, 2), 1);
-	return (0);
+	{
+		*exit_code = SYNTAX_ERROR_CODE;
+		ft_putstr_fd(SYNTAX_ERROR_END, 2);
+	}
 }

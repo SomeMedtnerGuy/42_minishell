@@ -17,5 +17,11 @@ void	init_flags(t_flags *f)
 	f->sq = 0;
 	f->dq = 0;
 	f->prev = PIPE;
-	f->error = 0;
+}
+
+void	print_syntax_error(char c)
+{
+	ft_putstr_fd(SYNTAX_ERROR, 2);
+	ft_putchar_fd(c, 2);
+	ft_putstr_fd("\'\n", 2);
 }

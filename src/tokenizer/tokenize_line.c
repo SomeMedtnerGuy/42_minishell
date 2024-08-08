@@ -18,8 +18,6 @@ static void	init_data(t_tokenizer_data *td, t_root *r)
 	td->token_lst = NULL;
 	td->type = 'a';
 	td->stoken = NULL;
-	r->prev_exit_code = r->exit_code;
-	r->exit_code = 0;
 }
 
 static int	finish_tokenizer(t_tokenizer_data *td, t_root *r)

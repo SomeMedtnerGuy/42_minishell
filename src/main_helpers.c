@@ -25,14 +25,16 @@ static int	is_all_spaces(char *line)
 
 int	get_line(t_root *r)
 {
+	r->prev_exit_code = r->exit_code;
+	r->exit_code = 0;
 	setget_signo(SET, 0);
 	r->line = readline(PROMPT);
 	if (setget_signo(GET, 0) == CTRLC_SIGNO)
-		r->exit_code = 128 + CTRLC_SIGNO;
+		r->prev_exit_code = 128 + CTRLC_SIGNO;
 	if (!r->line)
 	{
 		ft_putstr_fd(CTRD_EXIT_MSG, STDERR_FILENO);
-		free_exit(r, r->exit_code);
+		free_exit(r, r->prev_exit_code);
 	}
 	if (is_all_spaces(r->line))
 	{
