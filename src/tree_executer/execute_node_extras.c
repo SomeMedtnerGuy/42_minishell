@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_node_extras.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:09:15 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/06 10:11:28 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:04:13 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	apply_pipe_and_execute(t_node *node, t_root *r, int *p,
 	{
 		close(p[0]);
 		close(p[1]);
-		exit_from_te(r, "dup", errno);
+		exit_with_standard_error(r, "dup", errno, 0);
 	}
 	close(p[0]);
 	close(p[1]);
@@ -35,20 +35,15 @@ void	failed_execve_aftermath(char *cmd_path, char **args, t_root *r)
 	if (!cmd)
 	{
 		free(cmd_path);
-		exit_from_te(r, "malloc", errno);
+		exit_with_standard_error(r, "malloc", errno, 0);
 	}
 	status = errno;
 	ft_matrix_free((void ***)&args);
 	free(cmd_path);
+	errno = 0;
 	if (status == 2)
-	{
-		print_buffered_error(cmd, CMD_NOT_FOUND_MSG);
-		exit_from_te(r, NULL, 127);
-	}
+		exit_with_custom_error(r, cmd, CMD_NOT_FOUND_MSG, 127);
 	else if (status == 13)
-	{
-		print_buffered_error(cmd, PERMISSION_DENIED_MSG);
-		exit_from_te(r, NULL, 126);
-	}
-	exit_from_te(r, NULL, 1);
+		exit_with_custom_error(r, cmd, PERMISSION_DENIED_MSG, 126);
+	exit_with_standard_error(r, "execve", 1, 0);
 }

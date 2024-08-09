@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 14:37:38 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:18:29 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,14 @@ void	run_pipeline(t_root *r)
 
 	cpid = fork();
 	if (cpid == -1)
-	{
-		perror("fork");
-		free_tree(r->tree);
-		free_exit(r, errno);
-	}
+		exit_with_standard_error(r, "fork", errno, 0);
 	if (cpid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, signal_handler_pipeline_childs);
 		execute_node(r->tree, r);
 	}
-	free_tree(r->tree);
+	free_tree(&r->tree);
 	wait(&cpstatus);
 	if (WIFEXITED(cpstatus))
 		r->exit_code = WEXITSTATUS(cpstatus);
@@ -40,51 +36,6 @@ void	run_pipeline(t_root *r)
 			ft_putstr_fd(CORE_DUMP_MSG, STDERR_FILENO);
 		r->exit_code = 128 + WTERMSIG(cpstatus);
 	}
-}
-
-static int	get_exit_code_from_arg(char *arg)
-{
-	int	i;
-	
-	i = 0;
-	if (!ft_isdigit(arg[i]) && arg[i] != '-')
-		return (-1);
-	while (arg[++i])
-	{
-		if (!ft_isdigit(arg[i]))
-			return (-1);
-	}
-	return (ft_atoi(arg) % 255);
-}
-
-void	ft_exit_parent(t_root *r, t_exec *node)
-{
-	int	exit_code;
-
-	ft_putstr_fd("exit\n", STDERR_FILENO);
-	if (node->argv->next)
-	{
-		exit_code = get_exit_code_from_arg(node->argv->next->content);
-		if (exit_code == -1)
-		{
-			ft_putstr_fd("exit: numeric arguments required\n", 2);
-			free_tree(r->tree);
-			free_exit(r, 2);
-		}
-		if (node->argv->next->next)
-		{
-			ft_putstr_fd("exit: too many arguments\n", 2);
-			r->exit_code = 1;
-			return ;
-		}
-		else
-		{
-			free_tree(r->tree);
-			free_exit(r, exit_code);
-		}
-	}
-	free_tree(r->tree);
-	free_exit(r, r->prev_exit_code);
 }
 
 static void	execute_builtin_in_parent(t_root *r)
@@ -97,7 +48,9 @@ static void	execute_builtin_in_parent(t_root *r)
 		ft_exit_parent(r, exec_node);
 	else
 		r->exit_code = run_builtin(((t_exec *)r->tree)->argv, &r->envp);
-	free_tree(r->tree);
+	if (errno)
+		exit_with_standard_error(r, "builtin", errno, 0);
+	free_tree(&r->tree);
 }
 
 static void	ft_readline_loop(t_root *r)
@@ -141,6 +94,8 @@ static void	init_root(t_root *r, char **envp)
 		exit(errno);
 	}
 	ft_strlcat(r->tempfiles_dir, TEMPFILES_DIR, BUFFER_MAX_SIZE);
+	r->token_lst = NULL;
+	r->stoken = NULL;
 	r->exit_code = 0;
 	r->prev_exit_code = 0;
 }

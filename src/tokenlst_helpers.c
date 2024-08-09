@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenlst_helpers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 19:05:25 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/24 23:54:59 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:00:40 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,18 @@ int	token_createadd(t_token **tokenlst, char type, char *tokenstr)
 	return (0);
 }
 
-void	free_tokenlst(t_token *tokenlst)
+void	free_tokenlst(t_token **tokenlst)
 {
+	t_token *node;
 	t_token	*tmp;
 
-	while (tokenlst)
+	node = *tokenlst;
+	while (node)
 	{
-		free(tokenlst->content);
-		tmp = tokenlst;
-		tokenlst = tokenlst->next;
+		free(node->content);
+		tmp = node;
+		node = node->next;
 		free(tmp);
 	}
+	*tokenlst = NULL;
 }

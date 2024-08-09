@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:47:13 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/27 10:31:45 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:25:41 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,17 @@
 static void	init_data(t_tokenizer_data *td, t_root *r)
 {
 	td->ptr = r->line;
-	td->token_lst = NULL;
 	td->type = 'a';
-	td->stoken = NULL;
 }
 
 static int	finish_tokenizer(t_tokenizer_data *td, t_root *r)
 {
-	if (td->stoken || td->type != 'a')
+	if (r->stoken || td->type != 'a')
 	{
-		if (token_createadd(&td->token_lst, td->type,
-				ft_strdup(td->stoken)) != 0)
-			exit_from_tokenizer(td, r, "malloc", errno);
+		if (token_createadd(&r->token_lst, td->type,
+				ft_strdup(r->stoken)) != 0)
+			exit_with_standard_error(r, "malloc", errno, 0);
 	}
-	r->token_lst = td->token_lst;
 	return (0);
 }
 
@@ -49,12 +46,13 @@ void	tokenize_line(t_root *r)
 			parse_spaces(&td, r);
 		else
 		{
-			if (update_token(&td.stoken, ft_strldup(td.ptr, 1)) != 0)
-				exit_from_tokenizer(&td, r, "malloc", errno);
+			if (update_token(&r->stoken, ft_strldup(td.ptr, 1)) != 0)
+				exit_with_standard_error(r, "malloc", errno, 0);
 			td.ptr += 1;
 		}
 	}
 	if (finish_tokenizer(&td, r) != 0)
 		return ;
-	return (free(td.stoken), free(r->line));
+	free(r->stoken);
+	r->stoken = NULL;
 }

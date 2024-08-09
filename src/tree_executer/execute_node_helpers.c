@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_node_helpers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 21:28:37 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/05 21:33:30 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:12:19 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	close_pipe(int *p)
 void	close_pipe_and_exit(int *p, t_root *r, char *msg)
 {
 	close_pipe(p);
-	exit_from_te(r, msg, errno);
+	exit_with_standard_error(r, msg, errno, 0);
 }
 
 void	try_running_builtin(t_exec *node, t_root *r)
@@ -49,9 +49,8 @@ void	try_running_builtin(t_exec *node, t_root *r)
 	if (get_builtin(node->argv->content))
 	{
 		if (ft_strncmp(node->argv->content, "exit", 5) == 0)
-			exit_from_te(r, NULL, r->prev_exit_code);
+			ft_exit_pipeline(r, node);
 		builtin_status = run_builtin(node->argv, &r->envp);
-		free_tree(r->tree);
-		free_exit(r, builtin_status);
+		free_everything_exit(r, builtin_status);
 	}
 }

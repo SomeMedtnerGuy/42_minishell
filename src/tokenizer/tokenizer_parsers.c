@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_parsers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:03:29 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/27 10:34:25 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:38:22 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ void	parse_quotes(t_tokenizer_data *td, t_root *r, char c)
 	{
 		if (c == '\"' && td->ptr[i] == '$')
 		{
-			if (i != 0 && update_token(&td->stoken,
+			if (i != 0 && update_token(&r->stoken,
 					ft_strldup(td->ptr, i)) != 0)
-				exit_from_tokenizer(td, r, "malloc", errno);
+				exit_with_standard_error(r, "malloc", errno, 0);
 			td->ptr += i;
 			expand_cmd_env(td, r);
 			i = -1;
 		}
 	}
-	if (update_token(&td->stoken, ft_strldup(td->ptr, i)) != 0)
-		exit_from_tokenizer(td, r, "malloc", errno);
+	if (update_token(&r->stoken, ft_strldup(td->ptr, i)) != 0)
+		exit_with_standard_error(r, "malloc", errno, 0);
 	td->ptr += i + 1;
 }
 
@@ -63,17 +63,17 @@ static void	parse_redirs(t_tokenizer_data *td)
 
 void	parse_redirs_pipes(t_tokenizer_data *td, t_root *r)
 {
-	if (td->stoken || td->type != 'a')
+	if (r->stoken || td->type != 'a')
 	{
-		if (token_createadd(&td->token_lst, td->type, td->stoken) != 0)
-			exit_from_tokenizer(td, r, "malloc", errno);
+		if (token_createadd(&r->token_lst, td->type, r->stoken) != 0)
+			exit_with_standard_error(r, "malloc", errno, 0);
 		td->type = 'a';
-		td->stoken = NULL;
+		r->stoken = NULL;
 	}
 	if (*td->ptr == '|')
 	{
-		if (token_createadd(&td->token_lst, '|', NULL) != 0)
-			exit_from_tokenizer(td, r, "malloc", errno);
+		if (token_createadd(&r->token_lst, '|', NULL) != 0)
+			exit_with_standard_error(r, "malloc", errno, 0);
 		td->ptr += 1;
 	}
 	else
@@ -84,12 +84,12 @@ void	parse_redirs_pipes(t_tokenizer_data *td, t_root *r)
 
 void	parse_spaces(t_tokenizer_data *td, t_root *r)
 {
-	if (td->stoken)
+	if (r->stoken)
 	{
-		if (token_createadd(&td->token_lst, td->type, td->stoken) != 0)
-			exit_from_tokenizer(td, r, "malloc", errno);
+		if (token_createadd(&r->token_lst, td->type, r->stoken) != 0)
+			exit_with_standard_error(r, "malloc", errno, 0);
 		td->type = 'a';
-		td->stoken = NULL;
+		r->stoken = NULL;
 	}
 	td->ptr += 1;
 }

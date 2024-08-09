@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 16:41:10 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:42:39 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ Please launch it without arguments.\n"
 # define ENVP_FILENAME "/env_filename_because_we_gotta_find_the\
 _dumbest_ways_to_get_around_this_damn_subject"
 
-typedef int	(*t_builtin)(char **, char ***);
+
 
 
 
@@ -85,10 +85,10 @@ typedef struct s_token
 
 typedef struct s_tokenizer_data
 {
-	t_token	*token_lst;
+	//t_token	*token_lst;
 	char	*ptr;
 	char	type;
-	char	*stoken;
+	//char	*stoken;
 	int		status;
 }	t_tokenizer_data;
 
@@ -125,6 +125,7 @@ typedef struct s_root
 {
 	char		*line;
 	char		**envp;
+	char		*stoken;
 	t_token		*token_lst;
 	t_node		*tree;
 	int			exit_code;
@@ -132,14 +133,21 @@ typedef struct s_root
 	char		tempfiles_dir[BUFFER_MAX_SIZE];
 }	t_root;
 
-// GENERAL_HELPERS.C
-void	print_buffered_error(char *origin, char *msg);
+typedef int	(*t_builtin)(char **, char ***);
+
+// FREE_EVERYTHING_EXIT.C
+void    free_everything_exit(t_root *r, int exit_code);
+void	exit_with_standard_error(t_root *r, char *msg, int exit_code, int allocated);
+void    exit_with_custom_error(t_root *r, char *origin, char *msg, int exit_code);
+//Returns if func was successful.
+int		ft_print_error(char *msg);
+char	*ft_build_error_msg(char *origin, char *msg);
 
 // MAIN_HELPERS.C
 int			get_line(t_root *r);
 
 // FREE_EXIT.C
-void		exit_from_te(t_root *r, char *msg, int exit_code);
+//void		exit_from_te(t_root *r, char *msg, int exit_code);
 void		free_exit(t_root *r, int exit_code);
 int			close_temps(char *tempfiles_dir);
 
@@ -171,9 +179,9 @@ void		parse_redirs_pipes(t_tokenizer_data *td, t_root *r);
 void		parse_spaces(t_tokenizer_data *td, t_root *r);
 
 // TOKENIZER_EXIT_FREE.C
-void		free_tokenizer(t_tokenizer_data *td);
-void		exit_from_tokenizer(t_tokenizer_data *td, t_root *r,
-				char *msg, int exit_code);
+//void		free_tokenizer(t_tokenizer_data *td);
+//void		exit_from_tokenizer(t_tokenizer_data *td, t_root *r,
+//				char *msg, int exit_code);
 
 // GET_ENV_VALUE.C
 int			get_env_key_len(char *start);
@@ -186,7 +194,7 @@ t_token		*tokennew(char type, char *content);
 t_token		*tokenlast(t_token *token);
 void		tokenadd_back(t_token **token, t_token *new);
 int			token_createadd(t_token **tokenlst, char type, char *tokenstr);
-void		free_tokenlst(t_token *tokenlst);
+void		free_tokenlst(t_token **tokenlst);
 
 // BUILD_TREE.C
 int			build_tree(t_root *r);
@@ -214,7 +222,7 @@ char		*get_env_value_hd(char *start);
 int			create_envp_file(void);
 
 // FREE_TREE.C
-void		free_tree(t_node *node);
+void		free_tree(t_node **tree);
 
 // EXECUTE_NODE.C
 char		**create_args(t_list *argv);
@@ -251,9 +259,10 @@ int			ft_echo(char **argv, char ***envp);
 int			ft_cd(char **argv, char ***envp);
 int			ft_pwd(char **argv, char ***envp);
 int			ft_export(char **argv, char ***envp);
-
 int			ft_unset(char **argv, char ***envp);
 int			ft_env(char **argv, char ***envp);
 int			ft_exit(char **argv, char ***envp);
+void		ft_exit_parent(t_root *r, t_exec *node);
+void		ft_exit_pipeline(t_root *r, t_exec *node);
 
 #endif

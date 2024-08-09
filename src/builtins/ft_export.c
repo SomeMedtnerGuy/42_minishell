@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:21:16 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/01 10:21:00 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:21:28 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	validate_argv(char **argv, char **envp)
 {
 	int	i;
 	int	count;
+	char	*key;
 
 	i = 0;
 	count = 0;
@@ -48,8 +49,12 @@ int	validate_argv(char **argv, char **envp)
 	{
 		if (is_key_valid(argv[i]))
 		{
-			delete_var(argv[i], envp);
+			key = get_env_key(argv[i]);
+			if (!key)
+				return (-1);
+			delete_var(key, envp);
 			count++;
+			free(key);
 		}
 		else
 		{
@@ -92,6 +97,8 @@ int	ft_export(char **argv, char ***envp)
 	if (!argv[1])
 		return (print_export_envs(*envp));
 	count = validate_argv(argv, *envp);
+	if (count < 0)
+		return (errno);
 	new_envp = (char **)ft_calloc(count_envs(*envp) + count + 1,
 			sizeof(char *));
 	if (!new_envp)

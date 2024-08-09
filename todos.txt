@@ -1,5 +1,3 @@
-Organize frees/exits
-Copy parent exit to pipeline exit
 improve cd.
 Organize signals
 Open heredocs until syntax error

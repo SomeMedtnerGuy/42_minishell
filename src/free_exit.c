@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:22:59 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 16:01:29 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/09 18:58:40 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	close_temps(char *tempfiles_dir)
 	tempdir = opendir(tempfiles_dir);
 	if (!tempdir)
 		return (errno);
+	errno = 0;
 	file = readdir(tempdir);
 	if (errno)
 		return (errno);
@@ -41,13 +42,12 @@ int	close_temps(char *tempfiles_dir)
 	return (errno);
 }
 
-void	exit_from_te(t_root *r, char *msg, int exit_code)
+/*void	exit_from_te(t_root *r, char *msg, int exit_code)
 {
 	if (msg)
 		perror(msg);
-	free_tree(r->tree);
-	free_exit(r, exit_code);
-}
+	free_everything_exit(r, exit_code);
+}*/
 
 void	free_exit(t_root *r, int exit_code)
 {

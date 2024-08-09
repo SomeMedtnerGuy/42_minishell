@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:25:08 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 15:22:51 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:58:16 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	child(char *eof, char *filename, t_root *r)
 {
 	init_tempfiles_path(r->tempfiles_dir);
 	eof = ft_strdup(eof);
-	free_tree(r->tree);
+	free_tree(&r->tree);
 	if (!eof)
 	{
 		perror("malloc");

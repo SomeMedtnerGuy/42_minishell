@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 10:47:22 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/30 10:23:51 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:38:46 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	build_tree(t_root *r)
 
 	ptr = r->token_lst;
 	r->tree = parse_pipe(&ptr, r);
-	free_tokenlst(r->token_lst);
+	free_tokenlst(&r->token_lst);
 	if (!r->tree)
 	{
 		perror("malloc");
@@ -113,13 +113,10 @@ int	build_tree(t_root *r)
 	}
 	r->exit_code = set_heredocs(r->tree, r);
 	if (errno)
-	{
-		free_tree(r->tree);
-		free_exit(r, errno);
-	}
+		exit_with_standard_error(r, "heredoc", errno, 0);
 	if (r->exit_code)
 	{
-		free_tree(r->tree);
+		free_tree(&r->tree);
 		return (1);
 	}
 	return (0);

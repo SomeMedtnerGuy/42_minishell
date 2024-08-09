@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:49:36 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/05 13:50:20 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:09:11 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ int	get_line(t_root *r)
 		free_exit(r, r->prev_exit_code);
 	}
 	if (is_all_spaces(r->line))
-	{
-		free(r->line);
 		return (1);
-	}
 	return (0);
 }
