@@ -6,23 +6,27 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 14:43:14 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/09 12:44:40 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/10 15:38:59 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	execute_redirs(t_redir *node, t_root *r)
+int	execute_redirs(t_redir *node, t_root *r)
 {
 	int	fd;
 
 	while (node)
 	{
 		if (!node->file)
-			exit_with_standard_error(r, "ambiguous redirect\n", 1, 0);
+		{
+			ft_print_error("ambiguous redirect");
+			r->exit_code = 1;
+			return (-1);
+		}
 		fd = open(node->file, get_redir_mode(node->redir_type), 0644);
 		if (fd == -1)
-			exit_with_standard_error(r, node->file, errno, 0);
+			exit_with_standard_error(r, node->file, 1, 0);
 		if (dup2(fd, get_redir_fd(node->redir_type)) < 0)
 		{
 			close(fd);
@@ -31,6 +35,7 @@ void	execute_redirs(t_redir *node, t_root *r)
 		close(fd);
 		node = node->next;
 	}
+	return (0);
 }
 
 void	execute_exec(t_exec *node, t_root *r)
@@ -38,7 +43,8 @@ void	execute_exec(t_exec *node, t_root *r)
 	char	**args;
 	char	*cmd_path;
 
-	execute_redirs(node->redirs, r);
+	if (execute_redirs(node->redirs, r) != 0)
+		free_everything_exit(r, 1);
 	if (!node->argv)
 		free_everything_exit(r, 0);
 	try_running_builtin(node, r);
@@ -76,6 +82,7 @@ void	execute_pipe(t_pipe *node, t_root *r)
 		apply_pipe_and_execute(node->right, r, p, 0);
 	close_pipe(p);
 	free_tree(&r->tree);
+	free_root(r);
 	waitpid(cpid_l, &status, 0);
 	waitpid(cpid_r, &status, 0);
 	if (WIFEXITED(status))

@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:22:49 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/09 15:00:04 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:44:01 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	parse_exit_arguments(t_root *r, char **args)
 		if (exit_code == -1)
 		{
 			ft_matrix_free((void ***)&args);
-			exit_with_standard_error(r, ft_strdup("exit: numeric arguments required"), 2, 0);
+			exit_with_standard_error(r, "exit: numeric arguments required", 2, 0);
 		}
 		if (args[2])
 		{

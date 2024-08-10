@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/09 19:18:29 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/10 15:52:54 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ static void	execute_builtin_in_parent(t_root *r)
 	t_exec	*exec_node;
 	
 	exec_node = (t_exec *)r->tree;
-	execute_redirs(exec_node->redirs, r);
+	if (execute_redirs(exec_node->redirs, r) != 0)
+	{
+		free_tree(&r->tree);
+		return ;
+	}
 	if (ft_strncmp(exec_node->argv->content, "exit", 5) == 0)
 		ft_exit_parent(r, exec_node);
 	else
@@ -95,6 +99,7 @@ static void	init_root(t_root *r, char **envp)
 	}
 	ft_strlcat(r->tempfiles_dir, TEMPFILES_DIR, BUFFER_MAX_SIZE);
 	r->token_lst = NULL;
+	r->tree = NULL;
 	r->stoken = NULL;
 	r->exit_code = 0;
 	r->prev_exit_code = 0;

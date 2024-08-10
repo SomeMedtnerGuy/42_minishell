@@ -1,3 +1,23 @@
-improve cd.
-Organize signals
-Open heredocs until syntax error
+MUST:
+
+exit -1 is not considering '-' as number
+
+redirs in parent are permanent!!! (not supposed to lol)
+
+ambiguous redirects are not being taken care of properly
+
+
+
+echo $245HOME
+- Prints newline, because does not recognize the entire var
+- Should sttop at first number and print the rest.
+
+
+Maybe:
+
+minishell inside minishell prints an extra \n when SIGINT?? (sig in older shells prints \n)
+
+
+
+
+

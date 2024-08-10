@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:55:37 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/09 14:39:58 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/10 14:05:02 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,17 @@ void    exit_with_custom_error(t_root *r, char *origin, char *msg, int exit_code
     ft_print_error(error_msg);
 	free(error_msg);
     free_everything_exit(r, exit_code);
+}
+
+void	free_root(t_root *r)
+{
+	free(r->line);
+	r->line = NULL;
+	free(r->stoken);
+	r->stoken = NULL;
+    ft_matrix_free((void ***)&r->envp);
+    free_tokenlst(&r->token_lst);
+    free_tree(&r->tree);
 }
 
 void    free_everything_exit(t_root *r, int exit_code)

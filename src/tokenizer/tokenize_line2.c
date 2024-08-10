@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:05:51 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/09 12:37:03 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:17:55 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	expand_cmd_env(t_tokenizer_data *td, t_root *r)
 		env_value = expand_exit_code(td, r);
 	else
 	{
+		errno = 0;
 		env_value = get_env_value(td->ptr, r->envp);
 		td->ptr += get_env_key_len(td->ptr);
 	}

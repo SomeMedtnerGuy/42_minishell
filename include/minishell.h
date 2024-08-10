@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/09 14:42:39 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/10 14:06:19 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef int	(*t_builtin)(char **, char ***);
 void    free_everything_exit(t_root *r, int exit_code);
 void	exit_with_standard_error(t_root *r, char *msg, int exit_code, int allocated);
 void    exit_with_custom_error(t_root *r, char *origin, char *msg, int exit_code);
+void	free_root(t_root *r);
 //Returns if func was successful.
 int		ft_print_error(char *msg);
 char	*ft_build_error_msg(char *origin, char *msg);
@@ -226,7 +227,7 @@ void		free_tree(t_node **tree);
 
 // EXECUTE_NODE.C
 char		**create_args(t_list *argv);
-void		execute_redirs(t_redir *node, t_root *r);
+int			execute_redirs(t_redir *node, t_root *r);
 void		execute_node(t_node *node, t_root *r);
 void		apply_pipe_and_execute(t_node *node, t_root *r, int *p,
 			int multipurp_fd);
