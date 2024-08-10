@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/10 15:52:54 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:42:28 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,19 @@ void	run_pipeline(t_root *r)
 static void	execute_builtin_in_parent(t_root *r)
 {
 	t_exec	*exec_node;
+	int		original_stdout;
 	
 	exec_node = (t_exec *)r->tree;
+	original_stdout = dup(STDOUT_FILENO);
+	if (original_stdout < 0)
+	{
+		perror("dup");
+		free_tree(&r->tree);
+		return ;
+	}
 	if (execute_redirs(exec_node->redirs, r) != 0)
 	{
+		close(original_stdout);
 		free_tree(&r->tree);
 		return ;
 	}
@@ -55,6 +64,9 @@ static void	execute_builtin_in_parent(t_root *r)
 	if (errno)
 		exit_with_standard_error(r, "builtin", errno, 0);
 	free_tree(&r->tree);
+	if (dup2(original_stdout, STDOUT_FILENO) < 0)
+		perror("dup");
+	close(original_stdout);
 }
 
 static void	ft_readline_loop(t_root *r)

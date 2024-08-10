@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:05:51 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/10 10:17:55 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:44:38 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,11 @@ void	expand_cmd_env(t_tokenizer_data *td, t_root *r)
 		td->ptr += get_env_key_len(td->ptr);
 	}
 	if (errno)
+	{
+		printf("%i\n", errno);
 		exit_with_standard_error(r, "malloc", errno, 0);
+	}
+
 	if (env_value)
 	{
 		if (tokenize_env(r, td, env_value) != 0)
