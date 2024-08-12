@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_heredoc_file.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:27:53 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/31 09:19:51 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:47:11 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	get_heredoc_lines(char *eof_lit, int fd)
 			write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
-		line = readline(">");
+		line = readline("> ");
 	}
 	if (!line)
 		ft_putstr_fd("warning: here-document delimited by end-of-file\n", 2);

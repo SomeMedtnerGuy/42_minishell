@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/10 18:52:56 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:51:39 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,8 +251,8 @@ t_builtin	get_builtin(char *cmd);
 void		delete_var(char *var, char **envp);
 int			get_envp_i(char *key, char **envp);
 int			is_key_valid(char *key);
-int			verify_getcwd(char *cwd, size_t size);
-int			verify_change_dir(char *dir);
+//int			verify_getcwd(char *cwd, size_t size);
+//int			verify_change_dir(char *dir);
 int			count_envs(char **envp);
 int			fill_new_envp(char **new, char ***old_ref);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_value.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:25:26 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 16:03:06 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:50:40 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int	get_env_key_len(char *start)
 	int	count;
 
 	count = 0;
+	printf("%c\n", start[0]);
+	if (ft_isdigit(start[0]))
+		return (1);
 	while (ft_isalnum(start[count]) || start[count] == '_')
 		count++;
 	return (count);

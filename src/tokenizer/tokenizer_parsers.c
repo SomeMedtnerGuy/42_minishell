@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:03:29 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/10 18:51:39 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:15:59 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parse_quotes(t_tokenizer_data *td, t_root *r, char c)
 	i = -1;
 	while (td->ptr[++i] != c)
 	{
-		if (c == '\"' && td->ptr[i] == '$')
+		if (c == '\"' && td->ptr[i] == '$' && td->type != '-')
 		{
 			if (i != 0 && update_token(&r->stoken,
 					ft_strldup(td->ptr, i)) != 0)

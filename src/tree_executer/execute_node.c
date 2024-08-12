@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 14:43:14 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/10 15:38:59 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/12 21:35:09 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ void	execute_exec(t_exec *node, t_root *r)
 	args = create_args(node->argv);
 	if (!args)
 		exit_with_standard_error(r, "malloc", errno, 0);
+	if (args[0] && args[0][0] == '\0')
+	{
+		ft_matrix_free((void ***)&args);
+		exit_with_custom_error(r, strdup("\'\'"), CMD_NOT_FOUND_MSG, 127);
+	}
 	cmd_path = validate_cmd(args[0], r->envp);
 	if (!cmd_path)
 	{

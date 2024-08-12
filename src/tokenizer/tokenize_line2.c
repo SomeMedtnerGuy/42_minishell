@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:05:51 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/12 12:55:18 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:54:20 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,14 @@ char	*expand_cmd_env(t_tokenizer_data *td, t_root *r)
 	td->ptr += 1;
 	if (*(td->ptr) == '?')
 		env_value = expand_exit_code(td, r);
+	else if (ft_isdigit(*(td->ptr)))
+	{
+		if (*(td->ptr) == '0')
+			env_value = ft_strdup("minishell");
+		else
+			env_value = NULL;
+		td->ptr += 1;
+	}
 	else
 	{
 		errno = 0;

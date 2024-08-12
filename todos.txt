@@ -1,19 +1,13 @@
-MUST:
-
-echo $245HOME
-- Prints newline, because does not recognize the entire var
-- Should sttop at first number and print the rest.
+Heredoc: if EOF is in quotes:
+1. SHould not expand in heredoc 
+(INCREDIBLY DIFFICULT TO TAKE CARE OF. ONLY TRY TO FIX IF ENOUGH TIME)
 
 exit -1 is not considering '-' as number
 
+Maybe: minishell inside minishell prints an extra \n when SIGINT?? (sig in older shells prints \n)
 
+export: flags should have a different error message AND CODE
+        +=
+        temp can be assigned but not vice-versa
 
-
-Maybe:
-
-minishell inside minishell prints an extra \n when SIGINT?? (sig in older shells prints \n)
-
-
-
-
-
+cd: - and ~

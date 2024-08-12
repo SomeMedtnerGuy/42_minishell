@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:49:36 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/09 14:09:11 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:44:03 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	get_line(t_root *r)
 	r->exit_code = 0;
 	setget_signo(SET, 0);
 	r->line = readline(PROMPT);
+	errno = 0;
 	if (setget_signo(GET, 0) == CTRLC_SIGNO)
 		r->prev_exit_code = 128 + CTRLC_SIGNO;
 	if (!r->line)
