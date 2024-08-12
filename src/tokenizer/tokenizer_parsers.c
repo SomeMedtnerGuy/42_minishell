@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:03:29 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/09 12:38:22 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:51:39 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	parse_quotes(t_tokenizer_data *td, t_root *r, char c)
 					ft_strldup(td->ptr, i)) != 0)
 				exit_with_standard_error(r, "malloc", errno, 0);
 			td->ptr += i;
-			expand_cmd_env(td, r);
+			char *env_value;
+			env_value = expand_cmd_env(td, r);
+			if (update_token(&r->stoken, env_value) != 0)
+				exit_with_standard_error(r, "malloc", errno, 0);
 			i = -1;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:47:13 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/10 18:18:24 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/12 12:55:19 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,19 @@ void	tokenize_line(t_root *r)
 		if (*td.ptr == '\'' || *td.ptr == '\"')
 			parse_quotes(&td, r, *td.ptr);
 		else if (*td.ptr == '$' && td.type != '-')
-			expand_cmd_env(&td, r);
+		{
+			char *env_value;
+			env_value = expand_cmd_env(&td, r);
+			if (env_value)
+			{
+				if (tokenize_env(r, &td, env_value) != 0)
+				{
+					free(env_value);
+					exit_with_standard_error(r, "malloc", errno, 0);
+				}
+				free(env_value);
+			}
+		}
 		else if (ft_strchr(TOKEN_CHARS, *td.ptr))
 			parse_redirs_pipes(&td, r);
 		else if (ft_strchr(SPACES, *td.ptr))

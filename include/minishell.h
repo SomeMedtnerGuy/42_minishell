@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/10 14:06:19 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:52:56 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,8 @@ void		tokenize_line(t_root *r);
 
 // TOKENIZE_LINE2.C
 int			update_token(char **token, char *start);
-void		expand_cmd_env(t_tokenizer_data *td, t_root *r);
+int			tokenize_env(t_root *r, t_tokenizer_data *td, char *env_value);
+char		*expand_cmd_env(t_tokenizer_data *td, t_root *r);
 
 // TOKENIZER_PARSERS.C
 void		parse_quotes(t_tokenizer_data *td, t_root *r, char c);

@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:05:51 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/10 18:44:38 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/12 12:55:18 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	update_token(char **token, char *start)
 	return (0);
 }
 
-static int	tokenize_env(t_root *r, t_tokenizer_data *td, char *env_value)
+int	tokenize_env(t_root *r, t_tokenizer_data *td, char *env_value)
 {
 	int	i;
 
@@ -39,7 +39,7 @@ static int	tokenize_env(t_root *r, t_tokenizer_data *td, char *env_value)
 			if (i != 0 && update_token(&r->stoken,
 					ft_strldup(env_value, i)) != 0)
 				return (-1);
-			if (token_createadd(&r->token_lst,
+			if (i != 0 && token_createadd(&r->token_lst,
 					td->type, r->stoken) != 0)
 				return (-1);
 			r->stoken = NULL;
@@ -64,7 +64,7 @@ char	*expand_exit_code(t_tokenizer_data *td, t_root *r)
 	return (code);
 }
 
-void	expand_cmd_env(t_tokenizer_data *td, t_root *r)
+char	*expand_cmd_env(t_tokenizer_data *td, t_root *r)
 {
 	char	*env_value;
 
@@ -78,18 +78,6 @@ void	expand_cmd_env(t_tokenizer_data *td, t_root *r)
 		td->ptr += get_env_key_len(td->ptr);
 	}
 	if (errno)
-	{
-		printf("%i\n", errno);
 		exit_with_standard_error(r, "malloc", errno, 0);
-	}
-
-	if (env_value)
-	{
-		if (tokenize_env(r, td, env_value) != 0)
-		{
-			free(env_value);
-			exit_with_standard_error(r, "malloc", errno, 0);
-		}
-		free(env_value);
-	}
+	return (env_value);
 }

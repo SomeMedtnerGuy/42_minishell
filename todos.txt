@@ -1,11 +1,5 @@
 MUST:
 
-redirs in parent are permanent!!! (not supposed to lol)
-
-
-
-Builtins:
-
 echo $245HOME
 - Prints newline, because does not recognize the entire var
 - Should sttop at first number and print the rest.
@@ -13,8 +7,6 @@ echo $245HOME
 exit -1 is not considering '-' as number
 
 
-BUILTINS
-expand is breaking when expanding spaces. expand_cmd_env should tokenize differently depending if in quotes or not
 
 
 Maybe:
