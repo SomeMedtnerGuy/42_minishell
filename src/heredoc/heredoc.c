@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:25:08 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/13 11:57:15 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:46:06 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	child(char *eof, char *filename, t_root *r, char hd_type)
 		free_exit(r, errno);
 	}
 	ft_matrix_free((void ***)&r->envp);
-	create_heredoc_file(filename, eof, hd_type); //Add flag for quotes
+	create_heredoc_file(filename, eof, hd_type);
 }
 
 static char	*handle_heredoc_result(int cp_status, char *filename, t_root *r)

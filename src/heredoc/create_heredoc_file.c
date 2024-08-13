@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:27:53 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/13 12:01:51 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:46:11 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ static void	get_heredoc_lines(char *eof_lit, int fd, char hd_type)
 	line = readline("> ");
 	while (line && ft_strncmp(line, eof_lit, ft_strlen(eof_lit) + 1) != 0)
 	{
-		printf("%c\n", hd_type);
 		if (hd_type == '-')
 		{
-			line = find_and_expand(line); // Get the flag and put condition here!
+			line = find_and_expand(line);
 			if (!line && errno)
 			{
 				perror("envp expansion");
