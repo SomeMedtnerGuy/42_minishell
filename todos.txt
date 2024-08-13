@@ -1,7 +1,6 @@
+Maybe: SHLVL
 Maybe: minishell inside minishell prints an extra \n when SIGINT?? (sig in older shells prints \n)
+Maybe: cd ~
 
-export: flags should have a different error message AND EXIT CODE
-        +=
+export: +=
         temp can be assigned but not vice-versa
-
-cd: - and ~

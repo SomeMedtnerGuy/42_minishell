@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:21:16 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/09 19:21:28 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:46:19 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	place_variables_in_envp(char **argv, char **new_envp, int count)
 	return (error_code);
 }
 
-int	ft_export(char **argv, char ***envp)
+/*int	ft_export(char **argv, char ***envp)
 {
 	char	**new_envp;
 	int		count;
@@ -96,6 +96,41 @@ int	ft_export(char **argv, char ***envp)
 
 	if (!argv[1])
 		return (print_export_envs(*envp));
+	count = validate_argv(argv, *envp);
+	if (count < 0)
+		return (errno);
+	new_envp = (char **)ft_calloc(count_envs(*envp) + count + 1,
+			sizeof(char *));
+	if (!new_envp)
+		return (errno);
+	count = fill_new_envp(new_envp, envp);
+	error_code = place_variables_in_envp(argv, new_envp, count);
+	if (error_code < 0)
+		return (errno);
+	free(*envp);
+	*envp = new_envp;
+	return (error_code);
+}*/
+
+
+int	ft_export(char **argv, char ***envp)
+{
+	char	**new_envp;
+	int		count;
+	int		error_code;
+	char	*print_error;
+
+	if (!argv[1])
+		return (print_export_envs(*envp));
+	if(argv[1][0] == '-' && argv[1][1] != '\0')
+	{
+		print_error = ft_strjoin_free(ft_strjoin("export: ", argv[1]), ft_strdup(": invalid option"));
+		if (!print_error)
+			return (errno);
+		ft_print_error(print_error);
+		free(print_error);
+		return (2);
+	}
 	count = validate_argv(argv, *envp);
 	if (count < 0)
 		return (errno);

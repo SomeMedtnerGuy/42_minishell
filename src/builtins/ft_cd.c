@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:20:02 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/13 12:29:01 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:58:33 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@ static int	verify_change_dir(char *dir)
 	return (0);
 }
 
+int	cd_dash(char ***envp)
+{
+	char	*oldpwd;
+
+	oldpwd = get_env_value("OLDPWD", *envp);
+	if (oldpwd == NULL)
+	{
+		ft_print_error("cd: OLDPWD not set");
+		return (1);
+	}
+	printf("%s\n", oldpwd);
+	if (verify_change_dir(oldpwd) != 0)
+		return (errno);
+	return (0);
+}
+
 int	ft_cd(char **argv, char ***envp)
 {
 	char	cwd[1024];
@@ -57,6 +73,8 @@ int	ft_cd(char **argv, char ***envp)
 		if (verify_change_dir(new_dir) != 0)
 			return (1);
 	}
+	else if (ft_strlen(argv[1]) == 1 && argv[1][0] == '-')
+		return (cd_dash(envp));
 	else if (argv[1][0] == '\0')
 		return (0);
 	else
