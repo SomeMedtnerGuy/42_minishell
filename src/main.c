@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/12 13:31:02 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:15:45 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ static void	execute_builtin_in_parent(t_root *r)
 {
 	t_exec	*exec_node;
 	int		original_stdout;
+	int		original_stdin;
 	
 	exec_node = (t_exec *)r->tree;
+	original_stdin = dup(STDIN_FILENO); //Protect
 	original_stdout = dup(STDOUT_FILENO);
 	if (original_stdout < 0)
 	{
@@ -66,6 +68,7 @@ static void	execute_builtin_in_parent(t_root *r)
 	free_tree(&r->tree);
 	if (dup2(original_stdout, STDOUT_FILENO) < 0)
 		perror("dup");
+	dup2(original_stdin, STDIN_FILENO); //Protect
 	close(original_stdout);
 }
 
