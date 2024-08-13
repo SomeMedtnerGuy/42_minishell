@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:47:13 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/12 12:55:19 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:43:16 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	tokenize_line(t_root *r)
 	{
 		if (*td.ptr == '\'' || *td.ptr == '\"')
 			parse_quotes(&td, r, *td.ptr);
-		else if (*td.ptr == '$' && td.type != '-')
+		else if (*td.ptr == '$' && td.type != '-' && td.type != '_')
 		{
 			char *env_value;
 			env_value = expand_cmd_env(&td, r);

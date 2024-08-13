@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:25:08 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/08 18:58:16 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:57:15 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	save_envp(char **envp)
 	return (0);
 }
 
-static void	child(char *eof, char *filename, t_root *r)
+static void	child(char *eof, char *filename, t_root *r, char hd_type)
 {
 	init_tempfiles_path(r->tempfiles_dir);
 	eof = ft_strdup(eof);
@@ -53,7 +53,7 @@ static void	child(char *eof, char *filename, t_root *r)
 		free_exit(r, errno);
 	}
 	ft_matrix_free((void ***)&r->envp);
-	create_heredoc_file(filename, eof);
+	create_heredoc_file(filename, eof, hd_type); //Add flag for quotes
 }
 
 static char	*handle_heredoc_result(int cp_status, char *filename, t_root *r)
@@ -80,7 +80,7 @@ static char	*handle_heredoc_result(int cp_status, char *filename, t_root *r)
 	return (NULL);
 }
 
-char	*heredoc(char *eof, t_root *r)
+char	*heredoc(char *eof, t_root *r, char hd_type)
 {
 	char	*filename;
 	pid_t	cpid;
@@ -95,7 +95,7 @@ char	*heredoc(char *eof, t_root *r)
 	if (cpid == -1)
 		return (free(filename), NULL);
 	else if (cpid == 0)
-		child(eof, filename, r);
+		child(eof, filename, r, hd_type);
 	free(eof);
 	signal(SIGINT, SIG_IGN);
 	wait(&cp_status);

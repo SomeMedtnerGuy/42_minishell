@@ -6,25 +6,29 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:27:53 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/12 20:47:11 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:01:51 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	get_heredoc_lines(char *eof_lit, int fd)
+static void	get_heredoc_lines(char *eof_lit, int fd, char hd_type)
 {
 	char	*line;
 
 	line = readline("> ");
 	while (line && ft_strncmp(line, eof_lit, ft_strlen(eof_lit) + 1) != 0)
 	{
-		line = find_and_expand(line);
-		if (!line && errno)
+		printf("%c\n", hd_type);
+		if (hd_type == '-')
 		{
-			perror("envp expansion");
-			close(fd);
-			exit(errno);
+			line = find_and_expand(line); // Get the flag and put condition here!
+			if (!line && errno)
+			{
+				perror("envp expansion");
+				close(fd);
+				exit(errno);
+			}
 		}
 		if (line)
 			write(fd, line, ft_strlen(line));
@@ -40,7 +44,7 @@ static void	get_heredoc_lines(char *eof_lit, int fd)
 	exit(0);
 }
 
-void	create_heredoc_file(char *filename, char *eof)
+void	create_heredoc_file(char *filename, char *eof, char hd_type)
 {
 	char	eof_lit[1024];
 	int		fd;
@@ -55,5 +59,5 @@ void	create_heredoc_file(char *filename, char *eof)
 	ft_strlcpy(eof_lit, eof, ft_strlen(eof) + 1);
 	free(eof);
 	free(filename);
-	get_heredoc_lines(eof_lit, fd);
+	get_heredoc_lines(eof_lit, fd, hd_type);
 }

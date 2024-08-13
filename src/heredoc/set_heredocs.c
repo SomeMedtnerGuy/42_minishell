@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_heredocs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 19:18:31 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/30 19:18:58 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:59:19 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static int	find_heredoc_in_redirs(t_node *node, t_root *r)
 	redir_node = ((t_exec *)node)->redirs;
 	while (redir_node)
 	{
-		if (redir_node->redir_type == '-')
+		if (redir_node->redir_type == '-' || redir_node->redir_type == '_')
 		{
-			redir_node->file = heredoc(redir_node->file, r);
+			redir_node->file = heredoc(redir_node->file, r, redir_node->type);
 			if (!redir_node->file)
 				return (r->exit_code);
 		}

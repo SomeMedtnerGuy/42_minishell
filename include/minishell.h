@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/12 15:51:39 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:56:43 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ Please launch it without arguments.\n"
 # define BUFFER_MAX_SIZE 1024
 # define SPACES " \t\n\v\f\r"
 # define TOKEN_CHARS "<>|"
-# define REDIR_TYPES "<>+-"
+# define REDIR_TYPES "<>+-_"
 # define SET 0
 # define GET 1
 # define BUILTINS_AM 7
@@ -210,14 +210,14 @@ t_pipe		*create_pipe(t_node *left, t_node *right);
 int			set_heredocs(t_node *node, t_root *r);
 
 // HEREDOC.C
-char		*heredoc(char *eof, t_root *r);
+char		*heredoc(char *eof, t_root *r, char hd_type);
 
 // HEREDOC_HELPERS.C
 int			get_next_rn(void);
 char		*find_and_expand(char *line);
 
 // CREATE_HEREDOC_FILE.C
-void		create_heredoc_file(char *filename, char *eof);
+void		create_heredoc_file(char *filename, char *eof, char hd_type);
 
 // GET_ENV_VALUE_HD.C
 char		*get_env_value_hd(char *start);

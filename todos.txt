@@ -1,12 +1,11 @@
 Heredoc: if EOF is in quotes:
 1. SHould not expand in heredoc 
 (INCREDIBLY DIFFICULT TO TAKE CARE OF. ONLY TRY TO FIX IF ENOUGH TIME)
-
-exit -1 is not considering '-' as number
+UPDATE: Necessary. Desenmerdar-nos-emos. (check comments)
 
 Maybe: minishell inside minishell prints an extra \n when SIGINT?? (sig in older shells prints \n)
 
-export: flags should have a different error message AND CODE
+export: flags should have a different error message AND EXIT CODE
         +=
         temp can be assigned but not vice-versa
 

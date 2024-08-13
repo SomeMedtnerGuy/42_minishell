@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 21:28:37 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/09 15:12:19 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:45:45 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	get_redir_mode(char type)
 {
-	if (type == '<' || type == '-')
+	if (type == '<' || type == '-' || type == '_')
 		return (O_RDONLY);
 	else if (type == '>')
 		return (O_WRONLY | O_CREAT | O_TRUNC);
@@ -24,7 +24,7 @@ int	get_redir_mode(char type)
 
 int	get_redir_fd(char type)
 {
-	if (type == '<' || type == '-')
+	if (type == '<' || type == '-' || type == '_')
 		return (0);
 	else
 		return (1);

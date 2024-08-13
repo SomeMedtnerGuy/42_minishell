@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:20:02 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/12 16:00:02 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:29:01 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,12 @@ static int	verify_change_dir(char *dir)
 	}
 	else if (chdir(dir) != 0)
 	{
-		perror("cd");
-		return (errno);
+		perror(dir);
+		errno = 0;
+		free(dir);
+		return (1);
 	}
+	free(dir);
 	return (0);
 }
 
@@ -51,15 +54,18 @@ int	ft_cd(char **argv, char ***envp)
 		new_dir = get_env_value("HOME", *envp);
 		if (new_dir == NULL)
 			return (ft_print_error("cd: HOME not set"), 1);
-		verify_change_dir(new_dir);
-		free(new_dir);
+		if (verify_change_dir(new_dir) != 0)
+			return (1);
 	}
 	else if (argv[1][0] == '\0')
 		return (0);
 	else
 	{
-		new_dir = argv[1];
-		verify_change_dir(new_dir);
+		new_dir = ft_strdup(argv[1]);
+		if (!new_dir)
+			return (errno);
+		if (verify_change_dir(new_dir) != 0)
+			return (1);
 	}
 	update_env("OLDPWD", cwd, envp);
 	save_cwd(cwd, sizeof(cwd));
