@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_helpers.c                                   :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/05 20:09:41 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/14 21:58:33 by fivieira         ###   ########.fr       */
+/*   Created: 2024/07/07 11:21:07 by fivieira          #+#    #+#             */
+/*   Updated: 2024/07/18 22:14:19 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int count_envs(char **envp)
+int	command_env(t_localenv *local)
 {
-	int count;
-
-	count = 0;
-	while (envp[count])
-		count++;
-	return (count);
-}
-
-int	fill_new_envp(char **new, char ***old_ref)
-{
-	char	**old;
-	int		i;
-
-	old = *old_ref;
-	i = -1;
-	while (old[++i])
-		new[i] = old[i];
-	return (i);
+	if (local == NULL)
+	{
+		ft_putstr_fd(": local environment is NULL\n", 2);
+		return (exit_code(EXIT_FAILURE));
+	}	
+	//prtstr_env(local->content);
+	return (exit_code(EXIT_SUCCESS)); // tratar erro com os sinais
 }

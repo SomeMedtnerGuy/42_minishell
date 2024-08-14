@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
+/*   ft_free_matrix.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/05 00:08:24 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/14 22:28:42 by fivieira         ###   ########.fr       */
+/*   Created: 2024/06/05 11:27:58 by ndo-vale          #+#    #+#             */
+/*   Updated: 2024/06/05 11:30:56 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft.h"
+#include "libft.h"
 
-char	*ft_strjoin_free(char *s1, char *s2)
+void	ft_free_matrix(void **matrix)
 {
-	char *out;
+	int	i;
 
-	out = ft_strjoin(s1, s2);
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	return (out);
+	if (!matrix)
+		return ;
+	i = -1;
+	while (matrix[++i])
+		free(matrix[i]);
+	free(matrix);
 }
