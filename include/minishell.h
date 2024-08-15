@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/13 11:56:43 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/14 21:03:46 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,4 +267,6 @@ int			ft_exit(char **argv, char ***envp);
 void		ft_exit_parent(t_root *r, t_exec *node);
 void		ft_exit_pipeline(t_root *r, t_exec *node);
 
+// export
+void set_env_var(char *key, char *value, char **envp);
 #endif
