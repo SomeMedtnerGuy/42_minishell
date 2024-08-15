@@ -6,19 +6,14 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/15 10:48:48 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/15 10:52:32 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../include/minishell.h"
 
 int print_export_envs(char **envp)
-int print_export_envs(char **envp)
 {
-	char *key_equals;
-	char *value;
-	int i;
 	char *key_equals;
 	char *value;
 	int i;
@@ -176,7 +171,7 @@ int validate_argv(char **argv, char **envp)
 	}
 	return (count);
 }
-int	place_variables_in_envp(char **argv, char **new_envp, int count)
+int place_variables_in_envp(char **argv, char **new_envp, int count)
 {
 	int i;
 	int error_code;
@@ -247,7 +242,7 @@ int	place_variables_in_envp(char **argv, char **new_envp, int count)
 	return (error_code);
 }
 
-int	ft_export(char **argv, char ***envp)
+int ft_export(char **argv, char ***envp)
 {
 	char **new_envp;
 	int count;
@@ -257,30 +252,29 @@ int	ft_export(char **argv, char ***envp)
 	if (!argv[1])
 		return (print_export_envs(*envp));
 	if (argv[1][0] == '-' && argv[1][1] != '\0')
-	if (argv[1][0] == '-' && argv[1][1] != '\0')
-	{
-		print_error = ft_strjoin_free(ft_strjoin("export: ", argv[1]), ft_strdup(": invalid option"));
-		if (!print_error)
-			return (errno);
-		ft_print_error(print_error);
-		free(print_error);
-		return (2);
-	}
+		if (argv[1][0] == '-' && argv[1][1] != '\0')
+		{
+			print_error = ft_strjoin_free(ft_strjoin("export: ", argv[1]), ft_strdup(": invalid option"));
+			if (!print_error)
+				return (errno);
+			ft_print_error(print_error);
+			free(print_error);
+			return (2);
+		}
 	count = validate_argv(argv, *envp);
 	if (count < 0)
 		return (errno);
 	new_envp = (char **)ft_calloc(count_envs(*envp) + count + 1,
 								  sizeof(char *));
-								  sizeof(char *));
 	if (!new_envp)
 		return (errno);
 	count = fill_new_envp(new_envp, envp);
 	error_code = place_variables_in_envp(argv, new_envp, count);
-    if (error_code < 0)
-    {
-        free(new_envp);
-        return (errno);
-    }
+	if (error_code < 0)
+	{
+		free(new_envp);
+		return (errno);
+	}
 	free(*envp);
 	*envp = new_envp;
 	return (error_code);
