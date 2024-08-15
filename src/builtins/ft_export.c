@@ -5,15 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/28 10:21:16 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/15 10:43:05 by fivieira         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/08/15 10:48:48 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/minishell.h"
 
 int print_export_envs(char **envp)
+int print_export_envs(char **envp)
 {
+	char *key_equals;
+	char *value;
+	int i;
 	char *key_equals;
 	char *value;
 	int i;
@@ -67,7 +72,10 @@ int print_export_envs(char **envp)
 }
 
 int place_variables_in_envp(char **argv, char **new_envp, int count)
+int place_variables_in_envp(char **argv, char **new_envp, int count)
 {
+	int i;
+	int error_code;
 	int i;
 	int error_code;
 
@@ -249,6 +257,7 @@ int	ft_export(char **argv, char ***envp)
 	if (!argv[1])
 		return (print_export_envs(*envp));
 	if (argv[1][0] == '-' && argv[1][1] != '\0')
+	if (argv[1][0] == '-' && argv[1][1] != '\0')
 	{
 		print_error = ft_strjoin_free(ft_strjoin("export: ", argv[1]), ft_strdup(": invalid option"));
 		if (!print_error)
@@ -262,12 +271,16 @@ int	ft_export(char **argv, char ***envp)
 		return (errno);
 	new_envp = (char **)ft_calloc(count_envs(*envp) + count + 1,
 								  sizeof(char *));
+								  sizeof(char *));
 	if (!new_envp)
 		return (errno);
 	count = fill_new_envp(new_envp, envp);
 	error_code = place_variables_in_envp(argv, new_envp, count);
-	if (error_code < 0)
-		return (errno);
+    if (error_code < 0)
+    {
+        free(new_envp);
+        return (errno);
+    }
 	free(*envp);
 	*envp = new_envp;
 	return (error_code);
