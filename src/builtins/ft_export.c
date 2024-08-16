@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/15 10:52:32 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:01:33 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ int print_export_envs(char **envp)
 }
 
 int place_variables_in_envp(char **argv, char **new_envp, int count)
-int place_variables_in_envp(char **argv, char **new_envp, int count)
 {
-	int i;
-	int error_code;
 	int i;
 	int error_code;
 
@@ -217,10 +214,7 @@ int place_variables_in_envp(char **argv, char **new_envp, int count)
 			char *temp_str = NULL;
 
 			if (value)
-			{
-				temp_str = ft_strjoin(key, "=");
-				temp_str = ft_strjoin_free(temp_str, value);
-			}
+				temp_str = ft_strjoin_free(ft_strjoin(key, "="), value);
 			else
 			{
 				temp_str = ft_strdup(key);
@@ -252,15 +246,14 @@ int ft_export(char **argv, char ***envp)
 	if (!argv[1])
 		return (print_export_envs(*envp));
 	if (argv[1][0] == '-' && argv[1][1] != '\0')
-		if (argv[1][0] == '-' && argv[1][1] != '\0')
-		{
-			print_error = ft_strjoin_free(ft_strjoin("export: ", argv[1]), ft_strdup(": invalid option"));
-			if (!print_error)
-				return (errno);
-			ft_print_error(print_error);
-			free(print_error);
-			return (2);
-		}
+	{
+		print_error = ft_strjoin_free(ft_strjoin("export: ", argv[1]), ft_strdup(": invalid option"));
+		if (!print_error)
+			return (errno);
+		ft_print_error(print_error);
+		free(print_error);
+		return (2);
+	}
 	count = validate_argv(argv, *envp);
 	if (count < 0)
 		return (errno);
