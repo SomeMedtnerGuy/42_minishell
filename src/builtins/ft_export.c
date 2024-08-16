@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/16 14:01:33 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:13:41 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ void set_env_var(char *key, char *value, char **envp)
 {
 	char *new_env_var;
 	int i;
+	char *new_key;
 
-	new_env_var = ft_strjoin_free(ft_strjoin(key, "="), value);
+	new_key = ft_strjoin(key, "=");
+	new_env_var = ft_strjoin_free(new_key,ft_strdup(value));
 	if (!new_env_var)
 		return;
 
@@ -138,8 +140,9 @@ int validate_argv(char **argv, char **envp)
 			existing_value = get_env_value(key, envp);
 			if (existing_value)
 			{
-				char *new_value = ft_strjoin_free(existing_value, value);
+				char *new_value = ft_strjoin(existing_value, value);
 				set_env_var(key, new_value, envp);
+				free(new_value);
 				free(existing_value);
 			}
 			else
@@ -192,10 +195,8 @@ int place_variables_in_envp(char **argv, char **new_envp, int count)
 			current_value = get_env_value(key, new_envp);
 			if (current_value)
 			{
-				char *new_value = ft_strjoin(current_value, value);
-				free(value);
+				char *new_value = ft_strjoin_free(current_value, value);
 				value = new_value;
-				free(current_value);
 			}
 		}
 		else if (equals_sign)
@@ -208,13 +209,15 @@ int place_variables_in_envp(char **argv, char **new_envp, int count)
 			key = ft_strdup(argv[i]);
 			value = NULL;
 		}
-
 		if (is_key_valid(key))
 		{
 			char *temp_str = NULL;
 
 			if (value)
-				temp_str = ft_strjoin_free(ft_strjoin(key, "="), value);
+			{
+				temp_str = ft_strjoin(key, "=");
+				temp_str = ft_strjoin_free(temp_str, ft_strdup(value));
+			}
 			else
 			{
 				temp_str = ft_strdup(key);
@@ -230,7 +233,6 @@ int place_variables_in_envp(char **argv, char **new_envp, int count)
 		{
 			error_code = 1;
 		}
-
 		free(key);
 	}
 	return (error_code);

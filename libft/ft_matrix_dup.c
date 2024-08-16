@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_matrix_dup.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:17:36 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/07/25 19:13:51 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:36:29 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ void	**ft_matrix_dup(void **matrix)
 	int		size;
 
 	matrix_str = (char **)matrix;
-	i = -1;
-	while (matrix_str[++i])
-		continue ;
-	size = i + 1;
-	dup = (char **)ft_calloc(size, sizeof(char *));
+	i = 0;
+	while (matrix_str[i])
+		i++;
+	size = i;
+	dup = (char **)ft_calloc(size + 1, sizeof(char *));
 	if (!dup)
 		return (NULL);
 	i = -1;
-	while (++i < size - 1)
+	while (++i < size)
 	{
 		dup[i] = ft_strldup(matrix_str[i], ft_strlen(matrix_str[i]));
 		if (!(dup[i]))
