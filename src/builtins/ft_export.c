@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/16 17:15:07 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/17 23:35:42 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void set_env_var(char *key, char *value, char ***envp)
     i = 0;
     while ((*envp)[i])
     {
-        if (ft_strncmp((*envp)[i], key, ft_strlen(key)) == 0 && (*envp)[i][ft_strlen(key)] == '=')
+        if (ft_strncmp((*envp)[i], key, ft_strlen(key)) == 0 /*&& (*envp)[i][ft_strlen(key)] == '='*/)
         {
             free((*envp)[i]);
             (*envp)[i] = new_env_var;
@@ -227,24 +227,11 @@ int place_variables_in_envp(char **argv, char **new_envp, int count)
 		}
 		if (is_key_valid(key))
 		{
-			char *temp_str = NULL;
-
-			if (value)
-			{
-				temp_str = ft_strjoin(key, "=");
-				temp_str = ft_strjoin_free(temp_str, value);
-			}
-			else
-			{
-				temp_str = ft_strdup(key);
-				free(value);
-			}
-
-			if (!temp_str)
+			new_envp[count] = ft_strdup(argv[i]);
+			if (!new_envp[count])
 				return (-1);
-
-			new_envp[count] = temp_str;
 			count += 1;
+			free(value);
 		}
 		else
 		{
