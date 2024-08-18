@@ -1,17 +1,14 @@
 URGENT:
-quotes are not being properly handled in syntax_handler ("||" is being considered a syntax error);
 exit -1 is not converting properly
 Put delimiter in readline size
-cd creates PWD if already not set
-
-Done? General: options should be checked first (use is_option())
-
+several repeated args in export should only create last one? DONE BUT NOT TESTED WITH VALGRIND
 export: temp can be assigned but not vice-versa
+
+General: options should be checked first (use is_option())
 
 Maybe: organize export in alphabetical order
 Maybe: SHLVL
 Maybe: minishell inside minishell prints an extra \n when SIGINT?? (sig in older shells prints \n)
-Maybe: ~ ~- ~+ expansions 
 
 
 ============================================================
@@ -34,3 +31,5 @@ OPEN FDS TO TEST: >1 >2 >3 >4 >5 >6
 .
 .
 ============================================================
+
+

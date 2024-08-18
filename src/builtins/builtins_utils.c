@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 20:17:33 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/17 15:33:43 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/18 19:52:50 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ char	*get_key_from_var(char *var)
 	i = -1;
 	if (!var)
 		return (NULL);
-	while (var[++i] && var[i] != '=')
+	while (var[++i] && var[i] != '='
+			&& !(var[i] == '+' && var[i + 1] == '='))
 		continue ;
 	return (ft_strldup(var, i));
 }
