@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 20:17:33 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/18 19:52:50 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/18 22:34:33 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ int	run_builtin(t_list *argv_lst, char ***envp)
 		return (errno);
 	status = get_builtin(args[0])(args, envp);
 	ft_matrix_free((void ***)&args);
+	free(args); // added by fivieira make sure to check if it's correct
 	return (status);
 }

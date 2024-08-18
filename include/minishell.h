@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/17 15:34:37 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/18 23:23:23 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,9 @@ int			count_envs(char **envp);
 int			fill_new_envp(char **new, char ***old_ref);
 int			is_option(char *arg);
 char		*get_key_from_var(char *var);
+int			compare_env(const void *a, const void *b);
+char		**copy_and_sort_envs(char **envp);
+void		print_sorted_envs(char **sorted_envp);
 
 // BUILTINS
 int			ft_echo(char **argv, char ***envp);
