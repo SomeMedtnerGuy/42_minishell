@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:55:37 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/10 14:05:02 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/18 16:01:03 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	ft_print_buffered_error(char *msg)
 	printf("%s\n", msg);
 	if (dup2(STDOUT_FILENO, buff_fd) < 0)
 		return (perror("dup"), -1);
+	close(buff_fd);
 	return (0);
 }
 

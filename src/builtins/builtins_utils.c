@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 20:17:33 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/14 20:40:22 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:33:43 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	is_option(char *arg)
+{
+	if (!arg)
+		return (0);
+	if (arg[0])
+		return (arg[0] == '-' && arg[1]);
+	return (0);
+}
+
+char	*get_key_from_var(char *var)
+{
+	int	i;
+
+	i = -1;
+	if (!var)
+		return (NULL);
+	while (var[++i] && var[i] != '=')
+		continue ;
+	return (ft_strldup(var, i));
+}
 
 int	is_key_valid(char *key)
 {
@@ -19,15 +40,15 @@ int	is_key_valid(char *key)
 	i = 0;
 	if (!ft_isalpha(key[i]) && key[i] != '_')
 		return (0);
-	while (key[++i] && key[i] != '=')
+	while (key[++i])
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_')
 			return (0);
 	}
-	return (1);
+	return (i);
 }
 
-int	get_envp_i(char *key, char **envp)
+int	get_envp_i_from_key(char *key, char **envp)
 {
 	int	i;
 	int	key_len;
@@ -36,6 +57,8 @@ int	get_envp_i(char *key, char **envp)
 	if (!is_key_valid(key))
 		return (-1);
 	i = -1;
+	if (!envp)
+		return (-1);
 	while (envp[++i])
 	{
 		if (ft_strncmp(envp[i], key, key_len) == 0)
@@ -44,11 +67,11 @@ int	get_envp_i(char *key, char **envp)
 	return (-1);
 }
 
-void	delete_var(char *var, char **envp)
+void	delete_var(char *key, char **envp)
 {
 	int	var_i;
 
-	var_i = get_envp_i(var, envp);
+	var_i = get_envp_i_from_key(key, envp);
 	if (var_i >= 0)
 	{
 		free(envp[var_i]);

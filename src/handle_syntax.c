@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_syntax.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:31:04 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/02 16:08:18 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:24:53 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,30 @@ static void	handle_quotes(t_flags *f, char q)
 
 static void	handle_pipe(t_flags *f, char **ptr, int *exit_code)
 {
-	if (f->prev == PIPE || f->prev == REDIR)
+	if (!(f->dq || f->sq))
 	{
-		print_syntax_error(**ptr);
-		*exit_code = SYNTAX_ERROR_CODE;
+		if (f->prev == PIPE || f->prev == REDIR)
+		{
+			print_syntax_error(**ptr);
+			*exit_code = SYNTAX_ERROR_CODE;
+		}
+		f->prev = PIPE;
 	}
-	f->prev = PIPE;
 }
 
 static void	handle_redirs(t_flags *f, char **ptr, int *exit_code)
 {
-	if (f->prev == REDIR)
+	if (!(f->dq || f->sq))
 	{
-		print_syntax_error(**ptr);
-		*exit_code = SYNTAX_ERROR_CODE;
+		if (f->prev == REDIR)
+		{
+			print_syntax_error(**ptr);
+			*exit_code = SYNTAX_ERROR_CODE;
+		}
+		else if (**ptr == *(*ptr + 1))
+			*ptr += 1;
+		f->prev = REDIR;
 	}
-	else if (**ptr == *(*ptr + 1))
-		*ptr += 1;
-	f->prev = REDIR;
 }
 
 void	handle_syntax(char *ptr, int *exit_code)

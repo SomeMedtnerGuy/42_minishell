@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:22:49 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/13 11:49:19 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/18 16:01:10 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int	parse_exit_arguments(t_root *r, char **args)
 	if (args[1])
 	{
 		exit_code = get_exit_code_from_arg(args[1]);
-		
 		if (exit_code == -1)
 		{
 			ft_matrix_free((void ***)&args);

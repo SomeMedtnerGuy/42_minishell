@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/17 23:35:42 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:38:09 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void set_env_var(char *key, char *value, char ***envp)
     i = 0;
     while ((*envp)[i])
     {
-        if (ft_strncmp((*envp)[i], key, ft_strlen(key)) == 0 /*&& (*envp)[i][ft_strlen(key)] == '='*/)
+        if (ft_strncmp((*envp)[i], key, ft_strlen(key)) == 0 && (*envp)[i][ft_strlen(key)] == '=')
         {
             free((*envp)[i]);
             (*envp)[i] = new_env_var;
@@ -140,9 +140,11 @@ int validate_argv(char **argv, char ***envp)
     count = 0;
     while (argv[++i])
     {
+		key = get_key_from_var(argv[i]);
         plus_equals = ft_strnstr(argv[i], "+=", ft_strlen(argv[i]));
         if (plus_equals)
         {
+			free(key);
             key = ft_strldup(argv[i], plus_equals - argv[i]);
             if (!is_key_valid(key))
             {
@@ -169,11 +171,8 @@ int validate_argv(char **argv, char ***envp)
             free(value);
             count++;
         }
-        else if (is_key_valid(argv[i]))
+		else if (is_key_valid(key))
         {
-            key = get_env_key(argv[i]);
-            if (!key)
-                return (-1);
             delete_var(key, *envp);
             count++;
             free(key);
@@ -183,6 +182,7 @@ int validate_argv(char **argv, char ***envp)
             ft_putstr_fd("export: `", 2);
             ft_putstr_fd(argv[i], 2);
             ft_putstr_fd("': not a valid identifier\n", 2);
+			free(key);
         }
     }
     return (count);
@@ -227,11 +227,24 @@ int place_variables_in_envp(char **argv, char **new_envp, int count)
 		}
 		if (is_key_valid(key))
 		{
-			new_envp[count] = ft_strdup(argv[i]);
-			if (!new_envp[count])
+			char *temp_str = NULL;
+
+			if (value)
+			{
+				temp_str = ft_strjoin(key, "=");
+				temp_str = ft_strjoin_free(temp_str, value);
+			}
+			else
+			{
+				temp_str = ft_strdup(key);
+				free(value);
+			}
+
+			if (!temp_str)
 				return (-1);
+
+			new_envp[count] = temp_str;
 			count += 1;
-			free(value);
 		}
 		else
 		{
@@ -259,7 +272,7 @@ int ft_export(char **argv, char ***envp)
 			return (errno);
 		ft_print_error(print_error);
 		free(print_error);
-		return (2);
+		return (INVALID_OPTION_CODE);
 	}
 	count = validate_argv(argv, envp);
 	if (count < 0)

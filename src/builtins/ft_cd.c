@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:20:02 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/13 12:58:33 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:38:47 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,16 @@ int	ft_cd(char **argv, char ***envp)
 	char	cwd[1024];
 	char	*new_dir;
 
+	if (argv[1] && is_option(argv[1]))
+	{
+		char	*print_error;
+		print_error = ft_strjoin_free(ft_strjoin("cd: ", argv[1]), ft_strdup(": invalid option"));
+		if (!print_error)
+			return (errno);
+		ft_print_error(print_error);
+		free(print_error);
+		return (INVALID_OPTION_CODE);
+	}
 	if (argv[1] && argv[2])
 		return (ft_print_error("cd: too many arguments"), 1);
 	if (save_cwd(cwd, sizeof(cwd)) != 0)

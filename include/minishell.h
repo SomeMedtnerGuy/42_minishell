@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/16 16:40:42 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:34:37 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ Please launch it without arguments.\n"
 // CODES
 # define CTRLC_SIGNO 2
 # define SYNTAX_ERROR_CODE 2
+# define INVALID_OPTION_CODE 2
 
 // TYPES OF NODES
 # define REDIR 0
@@ -248,13 +249,15 @@ char		**create_args(t_list *argv);
 // BUILTIN_UTILS.C
 int			run_builtin(t_list *argv_lst, char ***envp);
 t_builtin	get_builtin(char *cmd);
-void		delete_var(char *var, char **envp);
-int			get_envp_i(char *key, char **envp);
+void		delete_var(char *key, char **envp);
+int			get_envp_i_from_key(char *key, char **envp);
 int			is_key_valid(char *key);
 //int			verify_getcwd(char *cwd, size_t size);
 //int			verify_change_dir(char *dir);
 int			count_envs(char **envp);
 int			fill_new_envp(char **new, char ***old_ref);
+int			is_option(char *arg);
+char		*get_key_from_var(char *var);
 
 // BUILTINS
 int			ft_echo(char **argv, char ***envp);
@@ -266,8 +269,5 @@ int			ft_env(char **argv, char ***envp);
 int			ft_exit(char **argv, char ***envp);
 void		ft_exit_parent(t_root *r, t_exec *node);
 void		ft_exit_pipeline(t_root *r, t_exec *node);
-
-// export
-void set_env_var(char *key, char *value, char ***envp);
 
 #endif

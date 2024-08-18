@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/13 20:15:45 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/18 16:06:01 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,11 @@ static void	execute_builtin_in_parent(t_root *r)
 		return ;
 	}
 	if (ft_strncmp(exec_node->argv->content, "exit", 5) == 0)
+	{
+		close(original_stdin);
+		close(original_stdout);
 		ft_exit_parent(r, exec_node);
+	}
 	else
 		r->exit_code = run_builtin(((t_exec *)r->tree)->argv, &r->envp);
 	if (errno)
@@ -69,6 +73,7 @@ static void	execute_builtin_in_parent(t_root *r)
 	if (dup2(original_stdout, STDOUT_FILENO) < 0)
 		perror("dup");
 	dup2(original_stdin, STDIN_FILENO); //Protect
+	close(original_stdin);
 	close(original_stdout);
 }
 
@@ -123,7 +128,7 @@ static void	init_root(t_root *r, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_root	r;
-	
+
 	if (argc != 1)
 		return (ft_putstr_fd(LAUNCH_ERROR, STDERR_FILENO), 0);
 	(void)argv;

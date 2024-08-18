@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   export_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:09:41 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/14 21:58:33 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/05 20:10:08 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int count_envs(char **envp)
+int	count_envs(char **envp)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (envp[count])
