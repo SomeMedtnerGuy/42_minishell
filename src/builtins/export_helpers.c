@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:09:41 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 14:55:35 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 15:31:51 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char **copy_envs(char **envp)
     new_envp = (char **)malloc(sizeof(char *) * (count + 1));
     if (!new_envp)
         return NULL;
-
     while (i < count)
     {
         new_envp[i] = strdup(envp[i]);
@@ -63,16 +62,19 @@ char **copy_envs(char **envp)
 void	print_sorted_envs(char **sorted_envp)
 {
     int i = 0;
-    while (sorted_envp[i] && sorted_envp[i][0] != '_')
+    while (sorted_envp[i])
     {
+        if (sorted_envp[i][0] == '_')
+        {
+            i++;
+            continue;
+        }
         char *key_equals = ft_strldup(sorted_envp[i], get_env_key_len(sorted_envp[i]) + 1);
         char *value = ft_strdup(sorted_envp[i] + ft_strlen(key_equals));
-        
         ft_printf("declare -x %s", key_equals);
         if (key_equals[get_env_key_len(sorted_envp[i])] == '=')
             ft_printf("\"%s\"", value);
-        write(1, "\n", 1);
-        
+        ft_printf("\n");
         free(key_equals);
         free(value);
         i++;
