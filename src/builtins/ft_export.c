@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/18 23:18:06 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:23:51 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,14 @@ void	append_env_var(char **arg_ptr, char **envp)
 			free(*arg_ptr);
 			*arg_ptr = ft_strjoin_free(ft_strjoin(arg_key, "="),
 										ft_strjoin_free(old_value, arg_value));
+			delete_var(arg_key, envp);
+			free(arg_key);
+			return ;
+		}else if(ft_strncmp(envp[i], arg_key, ft_strlen(arg_key)) == 0)
+		{
+			arg_value = ft_strdup(ft_strnstr(*arg_ptr, "+=", ft_strlen(*arg_ptr)) + 2);
+			free(*arg_ptr);
+			*arg_ptr = ft_strjoin_free(ft_strjoin(arg_key, "="), arg_value);
 			delete_var(arg_key, envp);
 			free(arg_key);
 			return ;
