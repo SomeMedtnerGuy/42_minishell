@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/19 11:23:51 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:10:52 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int print_export_envs(char **envp)
 {
     int i;
-    char **sorted_envp = copy_and_sort_envs(envp);
-    if (!sorted_envp)
-        return errno;
+    char **sorted_envp = copy_envs(envp);
+	if (!sorted_envp)
+		return (errno);
+	bubble_sort_envs(sorted_envp);	
     print_sorted_envs(sorted_envp);
     i = -1;
     while (sorted_envp[++i])

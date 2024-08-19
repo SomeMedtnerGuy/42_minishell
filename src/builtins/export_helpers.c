@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:09:41 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/18 23:23:12 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:24:52 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,30 @@ int	fill_new_envp(char **new, char ***old_ref)
 	return (i);
 }
 
-int	compare_env(const void *a, const void *b)
+char **copy_envs(char **envp)
 {
-    return ft_strncmp(*(const char **)a, *(const char **)b, ft_strlen(*(const char **)a));
-}
-
-char	**copy_and_sort_envs(char **envp)
-{
-    int count; 
-    
-    count = count_envs(envp);
-    char **sorted_envp = (char **)malloc(sizeof(char *) * (count + 1));
-    if (!sorted_envp)
-        return NULL;
+    int count = count_envs(envp);
+    char **new_envp;
     int i = 0;
+
+    new_envp = (char **)malloc(sizeof(char *) * (count + 1));
+    if (!new_envp)
+        return NULL;
+
     while (i < count)
     {
-        sorted_envp[i] = ft_strdup(envp[i]);
+        new_envp[i] = strdup(envp[i]);
+        if (!new_envp[i])
+        {
+            while (i > 0)
+                free(new_envp[--i]);
+            free(new_envp);
+            return NULL;
+        }
         i++;
     }
-    sorted_envp[count] = NULL;
-    qsort(sorted_envp, count, sizeof(char *), compare_env);
-    return sorted_envp;
+    new_envp[count] = NULL;
+    return new_envp;
 }
 
 void	print_sorted_envs(char **sorted_envp)
@@ -73,6 +75,42 @@ void	print_sorted_envs(char **sorted_envp)
         
         free(key_equals);
         free(value);
+        i++;
+    }
+}
+void    ft_swap(char **a, char **b)
+{
+    char *temp;
+
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void bubble_sort_envs(char **envp)
+{
+    int n;
+    int i;
+    int j;
+    bool swapped;
+
+    n = count_envs(envp);
+    i = 0;
+    while (i < n - 1)
+    {
+        swapped = false;
+        j = 0;
+        while (j < n - i - 1)
+        {
+            if (ft_strncmp(envp[j], envp[j + 1], ft_strlen(envp[j])) > 0)
+            {
+                ft_swap(&envp[j], &envp[j + 1]);
+                swapped = true;
+            }
+            j++;
+        }
+        if (!swapped)
+            break;
         i++;
     }
 }

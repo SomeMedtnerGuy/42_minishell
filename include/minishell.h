@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/18 23:23:23 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:08:47 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <fcntl.h> // file manipulation
 # include <dirent.h> // folder manipulation
 # include "../libft/libft.h" // libft
+# include <stdio.h> // printf
+# include <stdbool.h> // bool
 
 // MESSAGES
 # define LAUNCH_ERROR "minishell does not accept extra options. \
@@ -259,7 +261,8 @@ int			fill_new_envp(char **new, char ***old_ref);
 int			is_option(char *arg);
 char		*get_key_from_var(char *var);
 int			compare_env(const void *a, const void *b);
-char		**copy_and_sort_envs(char **envp);
+char		**copy_envs(char **envp);
+void		bubble_sort_envs(char **envp);
 void		print_sorted_envs(char **sorted_envp);
 
 // BUILTINS
