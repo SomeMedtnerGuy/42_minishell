@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:22:49 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/18 16:01:10 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 10:35:36 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ static int	get_exit_code_from_arg(char *arg)
 		if (!ft_isdigit(arg[i]))
 			return (-1);
 	}
-	return (ft_atoi(arg) % 255);
+	i = ft_atoi(arg);
+	if (i == -1)
+		i += 256;
+	return (i);
 }
 
 static int	parse_exit_arguments(t_root *r, char **args)

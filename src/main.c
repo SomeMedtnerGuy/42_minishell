@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/18 16:06:01 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:26:44 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static void	execute_builtin_in_parent(t_root *r)
 	if (execute_redirs(exec_node->redirs, r) != 0)
 	{
 		close(original_stdout);
+		close(original_stdin);
 		free_tree(&r->tree);
 		return ;
 	}
@@ -103,8 +104,21 @@ static void	ft_readline_loop(t_root *r)
 
 static void	init_root(t_root *r, char **envp)
 {
+	char	*old_shlvl;
+	char	*new_shlvl;
+
 	r->line = NULL;
 	r->envp = (char **)ft_matrix_dup((void **)envp);
+	old_shlvl = get_env_value("SHLVL", envp);
+	if (old_shlvl)
+	{
+		new_shlvl = ft_itoa(ft_atoi(old_shlvl) + 1);
+		update_env("SHLVL", new_shlvl, &r->envp);
+		free(old_shlvl);
+		free(new_shlvl);
+	}
+	else
+		place_var_in_envp(ft_strdup("SHLVL=1"), &r->envp);
 	if (!r->envp)
 	{
 		perror("malloc");

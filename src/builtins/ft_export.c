@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/19 12:10:52 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:59:44 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,26 @@ int print_export_envs(char **envp)
 {
     int i;
     char **sorted_envp = copy_envs(envp);
-	if (!sorted_envp)
-		return (errno);
-	bubble_sort_envs(sorted_envp);	
+    if (!sorted_envp)
+		return errno;
+	bubble_sort_envs(sorted_envp);
     print_sorted_envs(sorted_envp);
     i = -1;
     while (sorted_envp[++i])
         free(sorted_envp[i]);
-
     free(sorted_envp); 
     return (0);
 }
+void	place_var_in_envp(char *var, char ***envp)
+{
+	char	**new_envp;
+
+	new_envp = (char **)ft_calloc(count_envs(*envp) + 2, sizeof(char *));
+	new_envp[count_envs(*envp)] = var;
+	ft_matrix_free((void ***)envp);
+	*envp = new_envp;
+}
+
 int place_variables_in_envp(char **argv, char **new_envp, int count)
 {
 	int i;
@@ -73,7 +82,8 @@ void	append_env_var(char **arg_ptr, char **envp)
 			delete_var(arg_key, envp);
 			free(arg_key);
 			return ;
-		}else if(ft_strncmp(envp[i], arg_key, ft_strlen(arg_key)) == 0)
+		}
+		else if(ft_strncmp(envp[i], arg_key, ft_strlen(arg_key)) == 0)
 		{
 			arg_value = ft_strdup(ft_strnstr(*arg_ptr, "+=", ft_strlen(*arg_ptr)) + 2);
 			free(*arg_ptr);
@@ -84,6 +94,7 @@ void	append_env_var(char **arg_ptr, char **envp)
 		}
 	}
 	arg_value = ft_strdup(ft_strnstr(*arg_ptr, "+=", ft_strlen(*arg_ptr)) + 1);
+	free(*arg_ptr);
 	*arg_ptr = ft_strjoin_free(arg_key, arg_value);
 }
 

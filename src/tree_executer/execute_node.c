@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 14:43:14 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/13 20:24:08 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:16:44 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	execute_redirs(t_redir *node, t_root *r)
 				perror(node->file);
 				return (-1);
 			}
-			exit_with_standard_error(r, node->file, 1, 0); // Should return with -1 if file not found!
+			exit_with_standard_error(r, node->file, 1, 0);
 		}
 		if (dup2(fd, get_redir_fd(node->redir_type)) < 0)
 		{

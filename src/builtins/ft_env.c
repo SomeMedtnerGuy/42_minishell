@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:22:20 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/17 18:04:42 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:16:56 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	ft_env(char **argv, char ***envp)
 {
 	int	i;
 
-	(void)argv;
 	i = -1;
 	if (!*envp)
 		return (0);
@@ -28,7 +27,7 @@ int	ft_env(char **argv, char ***envp)
 			return (errno);
 		ft_print_error(print_error);
 		free(print_error);
-		return (INVALID_OPTION_CODE);
+		return (125);
 	}
 	while ((*envp)[++i])
 	{

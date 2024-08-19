@@ -1,35 +1,3 @@
-URGENT:
-exit -1 is not converting properly
-Put delimiter in readline size
-several repeated args in export should only create last one? DONE BUT NOT TESTED WITH VALGRIND
-export: temp can be assigned but not vice-versa
-
-General: options should be checked first (use is_option())
-
 Maybe: organize export in alphabetical order
 Maybe: SHLVL
 Maybe: minishell inside minishell prints an extra \n when SIGINT?? (sig in older shells prints \n)
-
-
-============================================================
-OPEN FDS TO TEST: >1 >2 >3 >4 >5 >6
-
-
-==342944== FILE DESCRIPTORS: 14 open (3 std) at exit.
-==342944== Open file descriptor 13: /dev/pts/0
-==342944==    at 0x49D9FEB: dup (syscall-template.S:120)
-==342944==    by 0x40170E: execute_builtin_in_parent (main.c:48)
-==342944==    by 0x4016C2: ft_readline_loop (main.c:95)
-==342944==    by 0x401491: main (main.c:140)
-==342944== 
-==342944== Open file descriptor 12: /dev/pts/0
-==342944==    at 0x49D9FEB: dup (syscall-template.S:120)
-==342944==    by 0x40170E: execute_builtin_in_parent (main.c:48)
-==342944==    by 0x4016C2: ft_readline_loop (main.c:95)
-==342944==    by 0x401491: main (main.c:140)
-.
-.
-.
-============================================================
-
-

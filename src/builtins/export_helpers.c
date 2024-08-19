@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:09:41 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 12:24:52 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:55:35 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char **copy_envs(char **envp)
 void	print_sorted_envs(char **sorted_envp)
 {
     int i = 0;
-    while (sorted_envp[i])
+    while (sorted_envp[i] && sorted_envp[i][0] != '_')
     {
         char *key_equals = ft_strldup(sorted_envp[i], get_env_key_len(sorted_envp[i]) + 1);
         char *value = ft_strdup(sorted_envp[i] + ft_strlen(key_equals));
@@ -114,3 +114,4 @@ void bubble_sort_envs(char **envp)
         i++;
     }
 }
+
