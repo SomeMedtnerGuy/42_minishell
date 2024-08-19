@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/19 17:12:04 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:59:34 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,13 @@ void	place_vars_in_envp(char **argv, char ***envp)
 		{
 			append_env_var(&(argv[i]), *envp);
 			place_var_in_envp(argv[i], envp);
+		}else if (ft_strchr(argv[i], '='))
+		{
+			delete_var(key, *envp);
+			place_var_in_envp(argv[i], envp);
 		}
+		else if (!get_env_value(key, *envp))
+			place_var_in_envp(argv[i], envp);
 		free(key);
 	}
 }
