@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:47:13 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 20:11:54 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:08:33 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static void	init_data(t_tokenizer_data *td, t_root *r)
 
 static int	finish_tokenizer(t_tokenizer_data *td, t_root *r)
 {
+	t_token	*ptr;
+	char	*last_arg;
+
 	if (r->stoken || td->type != 'a')
 	{
 		if (token_createadd(&r->token_lst, td->type,
 				ft_strdup(r->stoken)) != 0)
 			exit_with_standard_error(r, "malloc", errno, 0);
 	}
-
-	t_token	*ptr;
-	char	*last_arg;
 	ptr = r->token_lst;
 	last_arg = "";
 	while (ptr)
@@ -51,19 +51,7 @@ void	tokenize_line(t_root *r)
 		if (*td.ptr == '\'' || *td.ptr == '\"')
 			parse_quotes(&td, r, *td.ptr);
 		else if (*td.ptr == '$' && td.type != '-' && td.type != '_')
-		{
-			char *env_value;
-			env_value = expand_cmd_env(&td, r);
-			if (env_value)
-			{
-				if (tokenize_env(r, &td, env_value) != 0)
-				{
-					free(env_value);
-					exit_with_standard_error(r, "malloc", errno, 0);
-				}
-				free(env_value);
-			}
-		}
+			parse_expansions(&td, r);
 		else if (ft_strchr(TOKEN_CHARS, *td.ptr))
 			parse_redirs_pipes(&td, r);
 		else if (ft_strchr(SPACES, *td.ptr))

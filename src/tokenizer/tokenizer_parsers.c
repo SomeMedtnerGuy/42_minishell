@@ -6,27 +6,44 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:03:29 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/13 11:41:48 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:10:24 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+void	parse_expansions(t_tokenizer_data *td, t_root *r)
+{
+	char	*env_value;
+
+	env_value = expand_cmd_env(td, r);
+	if (env_value)
+	{
+		if (tokenize_env(r, td, env_value) != 0)
+		{
+			free(env_value);
+			exit_with_standard_error(r, "malloc", errno, 0);
+		}
+		free(env_value);
+	}
+}
+
 void	parse_quotes(t_tokenizer_data *td, t_root *r, char c)
 {
-	int	i;
+	int		i;
+	char	*env_value;
 
 	td->ptr += 1;
 	i = -1;
 	while (td->ptr[++i] != c)
 	{
-		if (c == '\"' && td->ptr[i] == '$' && td->type != '-' && td->type != '_')
+		if (c == '\"' && td->ptr[i] == '$'
+			&& td->type != '-' && td->type != '_')
 		{
 			if (i != 0 && update_token(&r->stoken,
 					ft_strldup(td->ptr, i)) != 0)
 				exit_with_standard_error(r, "malloc", errno, 0);
 			td->ptr += i;
-			char *env_value;
 			env_value = expand_cmd_env(td, r);
 			if (update_token(&r->stoken, env_value) != 0)
 				exit_with_standard_error(r, "malloc", errno, 0);

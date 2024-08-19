@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 23:53:02 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:16:18 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ char		*expand_cmd_env(t_tokenizer_data *td, t_root *r);
 void		parse_quotes(t_tokenizer_data *td, t_root *r, char c);
 void		parse_redirs_pipes(t_tokenizer_data *td, t_root *r);
 void		parse_spaces(t_tokenizer_data *td, t_root *r);
+void		parse_expansions(t_tokenizer_data *td, t_root *r);
 
 // GET_ENV_VALUE.C
 int			get_env_key_len(char *start);
@@ -240,7 +241,6 @@ int			get_redir_mode(char type);
 int			get_redir_fd(char type);
 void		close_pipe_and_exit(int *p, t_root *r, char *msg);
 void		try_running_builtin(t_exec *node, t_root *r);
-
 
 // COMMAND_HELPERS.C
 char		*validate_cmd(char *cmd, char **env);
