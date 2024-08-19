@@ -6,13 +6,11 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:31:04 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/18 17:24:53 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 23:34:18 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-
 
 static void	handle_quotes(t_flags *f, char q)
 {
@@ -74,7 +72,7 @@ void	handle_syntax(char *ptr, int *exit_code)
 		else
 			f.prev = EXEC;
 		if (*exit_code)
-			return;
+			return ;
 		ptr += 1;
 	}
 	if (f.prev != EXEC || f.sq || f.dq)

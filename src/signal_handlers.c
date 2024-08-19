@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 20:56:03 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 16:02:53 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/19 23:35:45 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,3 @@ void	signal_handler_pipeline_childs(int signo)
 		setget_signo(SET, SIGINT);
 	}
 }
-
-
-//TODO change sigquit to custom

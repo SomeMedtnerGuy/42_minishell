@@ -6,7 +6,7 @@
 #    By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:00:14 by ndo-vale          #+#    #+#              #
-#    Updated: 2024/08/19 18:58:38 by ndo-vale         ###   ########.fr        #
+#    Updated: 2024/08/19 23:33:41 by ndo-vale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,10 @@ RM	= rm -rf
 SRC_DIR	= src/
 OBJ_DIR	= obj/
 
-SRCS	= $(addprefix $(SRC_DIR), main.c main_helpers.c free_exit.c signals.c \
+SRCS	= $(addprefix $(SRC_DIR), main.c init_root.c main_helpers.c free_exit.c signals.c \
 			signal_handlers.c handle_syntax.c handle_syntax_utils.c \
-	  		general_helpers.c ft_free_everything_exit.c \
+	  		ft_free_everything_exit.c \
+			execute_builtin_in_parent.c print_error.c \
 	  		$(addprefix tokenizer/, tokenize_line.c tokenize_line2.c \
 			tokenizer_parsers.c tokenizer_exit_free.c) \
 			tokenlst_helpers.c get_env_value.c \

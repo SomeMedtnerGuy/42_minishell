@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/19 20:16:12 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 21:59:58 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,24 @@ int print_export_envs(char **envp)
 	free(sorted_envp);
 	return (0);
 }
-void place_var_in_envp(char *var, char ***envp)
+int	place_var_in_envp(char *var, char ***envp)
 {
-	char **new_envp;
+	char	**new_envp;
+	char	*new_var;
+	int		envs_am;
 
-	new_envp = (char **)ft_calloc(count_envs(*envp) + 2, sizeof(char *));
+	new_var = ft_strdup(var);
+	if (!new_var)
+		return (-1);
+	envs_am = count_envs(*envp);
+	new_envp = (char **)ft_calloc(envs_am + 2, sizeof(char *));
+	if (!new_envp)
+		return (free(new_var), -1);
 	fill_new_envp(new_envp, envp);
-	new_envp[count_envs(*envp)] = ft_strdup(var);
+	new_envp[envs_am] = new_var;
 	free(*envp);
 	*envp = new_envp;
+	return (0);
 }
 
 int place_variables_in_envp(char **argv, char **new_envp, int count)

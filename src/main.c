@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 19:45:35 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 22:56:38 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,44 +38,6 @@ void	run_pipeline(t_root *r)
 	}
 }
 
-static void	execute_builtin_in_parent(t_root *r)
-{
-	t_exec	*exec_node;
-	int		original_stdout;
-	int		original_stdin;
-	
-	exec_node = (t_exec *)r->tree;
-	original_stdin = dup(STDIN_FILENO);
-	if (original_stdin < 0)
-		printf("fudeu\n");
-	original_stdout = dup(STDOUT_FILENO);
-	if (original_stdout < 0)
-	{
-		perror("dup");
-		free_tree(&r->tree);
-		return ;
-	}
-	if (execute_redirs(exec_node->redirs, r) != 0)
-	{
-		close(original_stdout);
-		close(original_stdin);
-		free_tree(&r->tree);
-		return ;
-	}
-	if (ft_strncmp(exec_node->argv->content, "exit", 5) == 0)
-		ft_exit_parent(r, exec_node);
-	else
-		r->exit_code = run_builtin(((t_exec *)r->tree)->argv, &r->envp);
-	if (errno)
-		exit_with_standard_error(r, "builtin", errno, 0);
-	free_tree(&r->tree);
-	if (dup2(original_stdout, STDOUT_FILENO) < 0)
-		perror("dup");
-	dup2(original_stdin, STDIN_FILENO); //Protect
-	close(original_stdin);
-	close(original_stdout);
-}
-
 static void	ft_readline_loop(t_root *r)
 {
 	if (get_line(r) != 0)
@@ -98,51 +60,6 @@ static void	ft_readline_loop(t_root *r)
 		run_pipeline(r);
 		set_signal_default();
 	}
-}
-
-static void	init_root(t_root *r, char **envp)
-{
-	char	*old_shlvl;
-	char	*new_shlvl;
-
-	r->line = NULL;
-	r->envp = (char **)ft_matrix_dup((void **)envp);
-	if (!r->envp)
-	{
-		perror("malloc");
-		exit(errno);
-	}
-	old_shlvl = get_env_value("SHLVL", envp);
-	if (old_shlvl)
-	{
-		new_shlvl = ft_itoa(ft_atoi(old_shlvl) + 1);
-		update_env("SHLVL", new_shlvl, &r->envp);
-		free(old_shlvl);
-		free(new_shlvl);
-	}
-	else
-		place_var_in_envp(ft_strdup("SHLVL=1"), &r->envp);
-	char *old_lastcmd = get_env_value("_", r->envp);
-	if (!old_lastcmd)
-		place_var_in_envp(ft_strdup("_=]"), &r->envp);
-	free(old_lastcmd);
-	char *old_pwd = get_env_value("PWD", r->envp);
-	if (!old_pwd)
-		place_var_in_envp(ft_strjoin_free(ft_strdup("PWD="), getcwd(NULL, 0)), &r->envp);
-	free(old_pwd);
-	getcwd(r->tempfiles_dir, BUFFER_MAX_SIZE);
-	if (errno)
-	{
-		perror("getcwd");
-		ft_matrix_free((void ***)envp);
-		exit(errno);
-	}
-	ft_strlcat(r->tempfiles_dir, TEMPFILES_DIR, BUFFER_MAX_SIZE);
-	r->token_lst = NULL;
-	r->tree = NULL;
-	r->stoken = NULL;
-	r->exit_code = 0;
-	r->prev_exit_code = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
