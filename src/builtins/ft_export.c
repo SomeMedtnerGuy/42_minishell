@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/19 15:12:17 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/19 17:12:04 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ void place_var_in_envp(char *var, char ***envp)
 	char **new_envp;
 
 	new_envp = (char **)ft_calloc(count_envs(*envp) + 2, sizeof(char *));
-	new_envp[count_envs(*envp)] = var;
-	ft_matrix_free((void ***)envp);
+	fill_new_envp(new_envp, envp);
+	new_envp[count_envs(*envp)] = ft_strdup(var);
+	free(*envp);
 	*envp = new_envp;
 }
 
@@ -122,6 +123,7 @@ int count_exports(char **argv, char ***envp)
 		}
 		else if (ft_strchr(argv[i], '='))
 		{
+
 			delete_var(key, *envp);
 			count++;
 		}
@@ -132,11 +134,41 @@ int count_exports(char **argv, char ***envp)
 	return (count);
 }
 
+
+
+
+
+
+void	place_vars_in_envp(char **argv, char ***envp)
+{
+	char	*key;
+	int	i;
+
+	i = 0;
+	while (argv[++i])
+	{
+		key = get_key_from_var(argv[i]);
+		if (!is_key_valid(key))
+		{
+			ft_putstr_fd("export: `", 2);
+			ft_putstr_fd(argv[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+		}
+		else if (ft_strnstr(argv[i], "+=", ft_strlen(argv[i])))
+		{
+			append_env_var(&(argv[i]), *envp);
+			place_var_in_envp(argv[i], envp);
+		}
+		free(key);
+	}
+}
+
+
 int ft_export(char **argv, char ***envp)
 {
-	char **new_envp;
-	int count;
-	int error_code;
+	//char **new_envp;
+	//int count;
+	//int error_code;
 	char *print_error;
 
 	if (!argv[1])
@@ -150,6 +182,13 @@ int ft_export(char **argv, char ***envp)
 		free(print_error);
 		return (INVALID_OPTION_CODE);
 	}
+
+	place_vars_in_envp(argv, envp);
+
+
+
+
+/*
 	count = count_exports(argv, envp);
 	if (count < 0)
 		return (errno);
@@ -165,6 +204,6 @@ int ft_export(char **argv, char ***envp)
 		return (errno);
 	}
 	free(*envp);
-	*envp = new_envp;
-	return (error_code);
+	*envp = new_envp;*/
+	return (0); //TODO: check which error code should be used
 }

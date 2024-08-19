@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 14:26:44 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:15:21 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ static void	execute_builtin_in_parent(t_root *r)
 	int		original_stdin;
 	
 	exec_node = (t_exec *)r->tree;
-	original_stdin = dup(STDIN_FILENO); //Protect
+	original_stdin = dup(STDIN_FILENO);
+	if (original_stdin < 0)
+		printf("fudeu\n");
 	original_stdout = dup(STDOUT_FILENO);
 	if (original_stdout < 0)
 	{
@@ -61,11 +63,7 @@ static void	execute_builtin_in_parent(t_root *r)
 		return ;
 	}
 	if (ft_strncmp(exec_node->argv->content, "exit", 5) == 0)
-	{
-		close(original_stdin);
-		close(original_stdout);
 		ft_exit_parent(r, exec_node);
-	}
 	else
 		r->exit_code = run_builtin(((t_exec *)r->tree)->argv, &r->envp);
 	if (errno)
@@ -109,6 +107,11 @@ static void	init_root(t_root *r, char **envp)
 
 	r->line = NULL;
 	r->envp = (char **)ft_matrix_dup((void **)envp);
+	if (!r->envp)
+	{
+		perror("malloc");
+		exit(errno);
+	}
 	old_shlvl = get_env_value("SHLVL", envp);
 	if (old_shlvl)
 	{
@@ -119,11 +122,9 @@ static void	init_root(t_root *r, char **envp)
 	}
 	else
 		place_var_in_envp(ft_strdup("SHLVL=1"), &r->envp);
-	if (!r->envp)
-	{
-		perror("malloc");
-		exit(errno);
-	}
+	if (!get_env_value("_", envp))
+		place_var_in_envp(ft_strdup("_=]"), &r->envp);
+	
 	getcwd(r->tempfiles_dir, BUFFER_MAX_SIZE);
 	if (errno)
 	{

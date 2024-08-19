@@ -6,7 +6,7 @@
 #    By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:00:14 by ndo-vale          #+#    #+#              #
-#    Updated: 2024/08/08 18:11:57 by ndo-vale         ###   ########.fr        #
+#    Updated: 2024/08/19 18:58:38 by ndo-vale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ fclean: clean
 re: fclean all
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_readline.supp --track-origins=yes --track-fds=yes ./minishell
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_readline.supp --track-origins=yes ./minishell
 
 
 .PHONY: all clean fclean re 
