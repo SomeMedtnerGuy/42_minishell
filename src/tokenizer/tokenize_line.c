@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:47:13 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/13 11:43:16 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:11:54 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@ static int	finish_tokenizer(t_tokenizer_data *td, t_root *r)
 				ft_strdup(r->stoken)) != 0)
 			exit_with_standard_error(r, "malloc", errno, 0);
 	}
+
+	t_token	*ptr;
+	char	*last_arg;
+	ptr = r->token_lst;
+	last_arg = "";
+	while (ptr)
+	{
+		if (ptr->type == 'a')
+			last_arg = ptr->content;
+		ptr = ptr->next;
+	}
+	update_env("_", last_arg, &r->envp);
 	return (0);
 }
 

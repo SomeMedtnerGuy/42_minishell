@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/19 19:59:34 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:16:12 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,8 @@ void	place_vars_in_envp(char **argv, char ***envp)
 		{
 			append_env_var(&(argv[i]), *envp);
 			place_var_in_envp(argv[i], envp);
-		}else if (ft_strchr(argv[i], '='))
+		}
+		else if (ft_strchr(argv[i], '='))
 		{
 			delete_var(key, *envp);
 			place_var_in_envp(argv[i], envp);
@@ -172,9 +173,6 @@ void	place_vars_in_envp(char **argv, char ***envp)
 
 int ft_export(char **argv, char ***envp)
 {
-	//char **new_envp;
-	//int count;
-	//int error_code;
 	char *print_error;
 
 	if (!argv[1])
@@ -190,26 +188,5 @@ int ft_export(char **argv, char ***envp)
 	}
 
 	place_vars_in_envp(argv, envp);
-
-
-
-
-/*
-	count = count_exports(argv, envp);
-	if (count < 0)
-		return (errno);
-	new_envp = (char **)ft_calloc(count_envs(*envp) + count + 1,
-								  sizeof(char *));
-	if (!new_envp)
-		return (errno);
-	count = fill_new_envp(new_envp, envp);
-	error_code = place_variables_in_envp(argv, new_envp, count);
-	if (error_code < 0)
-	{
-		free(new_envp);
-		return (errno);
-	}
-	free(*envp);
-	*envp = new_envp;*/
 	return (0); //TODO: check which error code should be used
 }

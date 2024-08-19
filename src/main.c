@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 19:15:21 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:45:35 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,14 @@ static void	init_root(t_root *r, char **envp)
 	}
 	else
 		place_var_in_envp(ft_strdup("SHLVL=1"), &r->envp);
-	if (!get_env_value("_", envp))
+	char *old_lastcmd = get_env_value("_", r->envp);
+	if (!old_lastcmd)
 		place_var_in_envp(ft_strdup("_=]"), &r->envp);
-	
+	free(old_lastcmd);
+	char *old_pwd = get_env_value("PWD", r->envp);
+	if (!old_pwd)
+		place_var_in_envp(ft_strjoin_free(ft_strdup("PWD="), getcwd(NULL, 0)), &r->envp);
+	free(old_pwd);
 	getcwd(r->tempfiles_dir, BUFFER_MAX_SIZE);
 	if (errno)
 	{
