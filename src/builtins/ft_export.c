@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:04:34 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 13:39:38 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:22:02 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,32 @@ void	process_var(char **arg_ptr, char ***envp, char *key, char *value)
 	}
 }
 
-void	place_vars_in_envp(char **argv, char ***envp)
+int	place_vars_in_envp(char **argv, char ***envp)
 {
 	char	*key;
 	int		i;
 	char	*value;
+	int		flag;
 
 	i = 0;
+	flag = 0;
 	while (argv[++i])
 	{
 		key = get_key_from_var(argv[i]);
 		value = get_env_value(key, *envp);
 		if (!is_key_valid(key))
+		{
 			handle_invalid_key(argv[i]);
+			free(key);
+			free(value);
+			flag = 1;
+		}
 		else
 			process_var(&argv[i], envp, key, value);
 		free(key);
 		free(value);
 	}
+	return (flag);
 }
 
 int	ft_export(char **argv, char ***envp)

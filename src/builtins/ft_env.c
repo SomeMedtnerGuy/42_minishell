@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:22:20 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 00:16:47 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:24:44 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	ft_env(char **argv, char ***envp)
 		free(print_error);
 		return (125);
 	}
+	else if (argv[1])
+		return (ft_print_error("env: No arguments accepted!"), 1);
 	while ((*envp)[++i])
 	{
 		if (ft_strchr((*envp)[i], '='))
