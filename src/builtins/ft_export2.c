@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:35:27 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 13:37:10 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:17:18 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	append_env_var(char **arg_ptr, char **envp)
 			join_both_values(arg_ptr, envp, arg_key);
 			return ;
 		}
-		else if (ft_strncmp(envp[i], arg_key, ft_strlen(arg_key)) == 0)
+		else if (ft_strncmp(envp[i], arg_key, ft_strlen(arg_key)) == 0
+				&& envp[i][ft_strlen(arg_key)] == '\0')
 		{
 			assign_new_value(arg_ptr, envp, arg_key);
 			return ;
