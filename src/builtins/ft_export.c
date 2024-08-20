@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:04:34 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 18:07:41 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:26:10 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	process_var(char **arg_ptr, char ***envp, char *key, char *value)
 		place_var_in_envp(*arg_ptr, envp);
 	}
 	else if (!value)
-	{	
+	{
 		delete_var(key, *envp);
 		place_var_in_envp(*arg_ptr, envp);
 	}
