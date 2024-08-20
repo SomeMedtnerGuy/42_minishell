@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+         #
+#    By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:00:14 by ndo-vale          #+#    #+#              #
-#    Updated: 2024/08/19 23:33:41 by ndo-vale         ###   ########.fr        #
+#    Updated: 2024/08/20 00:28:30 by fivieira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRCS	= $(addprefix $(SRC_DIR), main.c init_root.c main_helpers.c free_exit.c sig
 			execute_node_helpers.c execute_node_extras.c) \
 			$(addprefix builtins/, builtins_utils.c export_helpers.c \
 			ft_echo.c ft_cd.c ft_pwd.c ft_export.c ft_unset.c ft_env.c \
-			ft_exit.c))
+			ft_exit.c env_utils.c))
 OBJS	= $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 LIBFT_DIR	= ./libft

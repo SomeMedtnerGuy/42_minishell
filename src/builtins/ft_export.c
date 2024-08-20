@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/19 21:59:58 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:56:22 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,30 +47,6 @@ int	place_var_in_envp(char *var, char ***envp)
 	return (0);
 }
 
-int place_variables_in_envp(char **argv, char **new_envp, int count)
-{
-	int i;
-	int error_code;
-	char *key;
-
-	i = 0;
-	error_code = 0;
-	while (argv[++i])
-	{
-		key = get_key_from_var(argv[i]);
-		if (is_key_valid(key) && (ft_strchr(argv[i], '=') || !get_env_value(argv[i], new_envp)))
-		{
-			new_envp[count] = ft_strdup(argv[i]);
-			if (!new_envp[count])
-				return (-1);
-			count += 1;
-		}
-		else
-			error_code = 1;
-		free(key);
-	}
-	return (error_code);
-}
 void append_env_var(char **arg_ptr, char **envp)
 {
 	int i;
@@ -108,55 +84,17 @@ void append_env_var(char **arg_ptr, char **envp)
 	*arg_ptr = ft_strjoin_free(arg_key, arg_value);
 }
 
-int count_exports(char **argv, char ***envp)
-{
-	char *key;
-	int count;
-	int i;
-
-	count = 0;
-	i = 0;
-	while (argv[++i])
-	{
-		key = get_key_from_var(argv[i]);
-		if (!is_key_valid(key))
-		{
-			ft_putstr_fd("export: `", 2);
-			ft_putstr_fd(argv[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-		}
-		else if (ft_strnstr(argv[i], "+=", ft_strlen(argv[i])))
-		{
-			append_env_var(&(argv[i]), *envp);
-			count++;
-		}
-		else if (ft_strchr(argv[i], '='))
-		{
-
-			delete_var(key, *envp);
-			count++;
-		}
-		else if (!get_env_value(key, *envp))
-			count++;
-		free(key);
-	}
-	return (count);
-}
-
-
-
-
-
-
 void	place_vars_in_envp(char **argv, char ***envp)
 {
 	char	*key;
-	int	i;
+	int		i;
+	char	*value;
 
 	i = 0;
 	while (argv[++i])
 	{
 		key = get_key_from_var(argv[i]);
+		value = get_env_value(key, *envp);
 		if (!is_key_valid(key))
 		{
 			ft_putstr_fd("export: `", 2);
@@ -173,12 +111,15 @@ void	place_vars_in_envp(char **argv, char ***envp)
 			delete_var(key, *envp);
 			place_var_in_envp(argv[i], envp);
 		}
-		else if (!get_env_value(key, *envp))
+		else if (!value)
+		{
+			delete_var(key, *envp);
 			place_var_in_envp(argv[i], envp);
+		}	
 		free(key);
+		free(value);
 	}
 }
-
 
 int ft_export(char **argv, char ***envp)
 {

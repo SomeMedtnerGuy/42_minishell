@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:22:49 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 19:06:16 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:22:42 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_exit(char **argv, char ***envp)
 static int	get_exit_code_from_arg(char *arg)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!ft_isdigit(arg[i]) && arg[i] != '-' && arg[i] != '+')
 		return (-1);
@@ -48,12 +48,14 @@ static int	parse_exit_arguments(t_root *r, char **args)
 		if (exit_code == -1)
 		{
 			ft_matrix_free((void ***)&args);
-			exit_with_standard_error(r, "exit: numeric arguments required", 2, 0);
+			exit_with_standard_error(r, "exit: numeric arguments required",
+				2, 0);
 		}
 		if (args[2])
 		{
-			ft_matrix_free((void ***)&args);
-			return(ft_print_error("exit: too many arguments"), r->prev_exit_code);
+			ft_matrix_free((void ***) &args);
+			return (ft_print_error("exit: too many arguments"),
+				r->prev_exit_code);
 		}
 		ft_matrix_free((void ***)&args);
 		free_everything_exit(r, exit_code);
