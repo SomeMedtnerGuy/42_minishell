@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:04:34 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 15:22:02 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:17:06 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ int	place_vars_in_envp(char **argv, char ***envp)
 		if (!is_key_valid(key))
 		{
 			handle_invalid_key(argv[i]);
-			free(key);
-			free(value);
 			flag = 1;
 		}
 		else

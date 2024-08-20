@@ -1,3 +1,0 @@
-Maybe: organize export in alphabetical order
-Maybe: SHLVL
-Maybe: minishell inside minishell prints an extra \n when SIGINT?? (sig in older shells prints \n)
