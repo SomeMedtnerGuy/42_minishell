@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 00:16:18 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/20 11:29:21 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,11 @@ char		*get_key_from_var(char *var);
 char		**copy_envs(char **envp);
 void		bubble_sort_envs(char **envp);
 void		print_sorted_envs(char **sorted_envp);
+int			verify_change_dir(char *dir);
+int			save_cwd(char *cwd, size_t size);
+int			handle_error_option(char *arg);
+int			handle_home_directory(char ***envp);
+void		update_directories(char *cwd, char ***envp);
 
 // BUILTINS
 int			ft_echo(char **argv, char ***envp);

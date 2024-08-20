@@ -6,23 +6,20 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:20:02 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 01:04:10 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/20 11:29:29 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	save_cwd(char *cwd, size_t size)
+int	save_cwd(char *cwd, size_t size)
 {
 	if (getcwd(cwd, size) == NULL)
-	{
-		perror("getcwd");
 		return (errno);
-	}
 	return (0);
 }
 
-static int	verify_change_dir(char *dir)
+int	verify_change_dir(char *dir)
 {
 	if (dir == NULL)
 	{
@@ -62,27 +59,13 @@ int	ft_cd(char **argv, char ***envp)
 	char	*new_dir;
 
 	if (argv[1] && is_option(argv[1]))
-	{
-		char	*print_error;
-		print_error = ft_strjoin_free(ft_strjoin("cd: ", argv[1]), ft_strdup(": invalid option"));
-		if (!print_error)
-			return (errno);
-		ft_print_error(print_error);
-		free(print_error);
-		return (INVALID_OPTION_CODE);
-	}
+		return (handle_error_option(argv[1]));
 	if (argv[1] && argv[2])
 		return (ft_print_error("cd: too many arguments"), 1);
 	if (save_cwd(cwd, sizeof(cwd)) != 0)
 		return (-1);
 	if (!argv[1])
-	{
-		new_dir = get_env_value("HOME", *envp);
-		if (new_dir == NULL)
-			return (ft_print_error("cd: HOME not set"), 1);
-		if (verify_change_dir(new_dir) != 0)
-			return (1);
-	}
+		return (handle_home_directory(envp));
 	else if (ft_strlen(argv[1]) == 1 && argv[1][0] == '-')
 		return (cd_dash(envp));
 	else if (argv[1][0] == '\0')
@@ -95,10 +78,6 @@ int	ft_cd(char **argv, char ***envp)
 		if (verify_change_dir(new_dir) != 0)
 			return (1);
 	}
-	update_env("OLDPWD", cwd, envp);
-	save_cwd(cwd, sizeof(cwd));
-	update_env("PWD", cwd, envp);
+	update_directories(cwd, envp);
 	return (0);
 }
-
-

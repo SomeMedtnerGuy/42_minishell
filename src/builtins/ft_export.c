@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/08/20 00:56:22 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/20 12:49:08 by fivieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	place_var_in_envp(char *var, char ***envp)
 	return (0);
 }
 
+
 void append_env_var(char **arg_ptr, char **envp)
 {
 	int i;
@@ -84,6 +85,32 @@ void append_env_var(char **arg_ptr, char **envp)
 	*arg_ptr = ft_strjoin_free(arg_key, arg_value);
 }
 
+void handle_invalid_key(char *arg) 
+{
+    ft_putstr_fd("export: `", 2);
+    ft_putstr_fd(arg, 2);
+    ft_putstr_fd("': not a valid identifier\n", 2);
+}
+
+void	process_var(char **arg_ptr, char ***envp, char *key, char *value)
+{
+	if (ft_strnstr(*arg_ptr, "+=", ft_strlen(*arg_ptr)))
+	{
+		append_env_var(&(*arg_ptr), *envp);
+		place_var_in_envp(*arg_ptr, envp);
+	}
+	else if (ft_strchr(*arg_ptr, '='))
+	{
+		delete_var(key, *envp);
+		place_var_in_envp(*arg_ptr, envp);
+	}
+	else if (!value)
+	{
+		delete_var(key, *envp);
+		place_var_in_envp(*arg_ptr, envp);
+	}
+}
+
 void	place_vars_in_envp(char **argv, char ***envp)
 {
 	char	*key;
@@ -96,26 +123,10 @@ void	place_vars_in_envp(char **argv, char ***envp)
 		key = get_key_from_var(argv[i]);
 		value = get_env_value(key, *envp);
 		if (!is_key_valid(key))
-		{
-			ft_putstr_fd("export: `", 2);
-			ft_putstr_fd(argv[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-		}
-		else if (ft_strnstr(argv[i], "+=", ft_strlen(argv[i])))
-		{
-			append_env_var(&(argv[i]), *envp);
-			place_var_in_envp(argv[i], envp);
-		}
-		else if (ft_strchr(argv[i], '='))
-		{
-			delete_var(key, *envp);
-			place_var_in_envp(argv[i], envp);
-		}
-		else if (!value)
-		{
-			delete_var(key, *envp);
-			place_var_in_envp(argv[i], envp);
-		}	
+			handle_invalid_key(argv[i]);
+		else
+			process_var(&argv[i], envp, key, value);	
+
 		free(key);
 		free(value);
 	}
