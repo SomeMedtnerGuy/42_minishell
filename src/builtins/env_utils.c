@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:27:38 by fivieira          #+#    #+#             */
-/*   Updated: 2024/08/20 00:29:19 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:48:15 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	get_envp_i_from_key(char *key, char **envp)
 		return (-1);
 	while (envp[++i])
 	{
-		if (ft_strncmp(envp[i], key, key_len) == 0)
+		if (ft_strncmp(envp[i], key, key_len) == 0
+			&& (*(envp[i] + key_len) == '\0' || *(envp[i] + key_len) == '='))
 			return (i);
 	}
 	return (-1);
