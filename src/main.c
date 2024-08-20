@@ -34,6 +34,8 @@ void	run_pipeline(t_root *r)
 	{
 		if (WCOREDUMP(cpstatus))
 			ft_putstr_fd(CORE_DUMP_MSG, STDERR_FILENO);
+		else if (WIFSIGNALED(cpstatus) && WTERMSIG(cpstatus) == SIGINT)
+			write(2, "\n", 1);
 		r->exit_code = 128 + WTERMSIG(cpstatus);
 	}
 }

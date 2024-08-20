@@ -62,7 +62,11 @@ static void	treat_pipe_aftermath(t_root *r, int status)
 	if (WIFEXITED(status))
 		free_everything_exit(r, WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			write(2, "\n", 1);
 		free_everything_exit(r, 128 + WTERMSIG(status));
+	}
 	else
 		exit_with_standard_error(r, "something unexpected occured\n", 1, 0);
 }

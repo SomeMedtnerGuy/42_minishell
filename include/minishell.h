@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:30:43 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 11:29:21 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:38:46 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,8 @@ int			save_cwd(char *cwd, size_t size);
 int			handle_error_option(char *arg);
 int			handle_home_directory(char ***envp);
 void		update_directories(char *cwd, char ***envp);
+int			print_export_envs(char **envp);
+void		append_env_var(char **arg_ptr, char **envp);
 
 // BUILTINS
 int			ft_echo(char **argv, char ***envp);

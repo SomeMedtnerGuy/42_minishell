@@ -40,7 +40,6 @@ void	signal_handler_pipeline(int signo)
 	if (signo == SIGINT)
 	{
 		rl_replace_line("", 0);
-		write(1, "\n", 1);
 		rl_on_new_line();
 		setget_signo(SET, SIGINT);
 	}
