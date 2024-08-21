@@ -100,6 +100,5 @@ int	ft_export(char **argv, char ***envp)
 		free(print_error);
 		return (INVALID_OPTION_CODE);
 	}
-	place_vars_in_envp(argv, envp);
-	return (0);
+	return (place_vars_in_envp(argv, envp));
 }

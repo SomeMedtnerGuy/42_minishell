@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 14:43:14 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 23:53:42 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:31:42 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	execute_exec(t_exec *node, t_root *r)
 	if (args[0] && args[0][0] == '\0')
 	{
 		ft_matrix_free((void ***)&args);
-		exit_with_custom_error(r, strdup("\'\'"), CMD_NOT_FOUND_MSG, 127);
+		exit_with_custom_error(r, ft_strdup("\'\'"), CMD_NOT_FOUND_MSG, 127);
 	}
 	cmd_path = validate_cmd(args[0], r->envp);
 	if (!cmd_path)

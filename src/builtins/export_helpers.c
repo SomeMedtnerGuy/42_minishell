@@ -6,7 +6,7 @@
 /*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:09:41 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 00:26:57 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:32:26 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**copy_envs(char **envp)
 	i = 0;
 	while (i < count)
 	{
-		new_envp[i] = strdup(envp[i]);
+		new_envp[i] = ft_strdup(envp[i]);
 		if (!new_envp[i])
 		{
 			while (i > 0)

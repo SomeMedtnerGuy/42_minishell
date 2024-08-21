@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:28:21 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/19 22:56:38 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:34:06 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	run_pipeline(t_root *r)
 	pid_t	cpid;
 	int		cpstatus;
 
+	cpstatus = 0;
 	cpid = fork();
 	if (cpid == -1)
 		exit_with_standard_error(r, "fork", errno, 0);
