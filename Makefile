@@ -6,7 +6,7 @@
 #    By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:00:14 by ndo-vale          #+#    #+#              #
-#    Updated: 2024/08/20 13:37:39 by ndo-vale         ###   ########.fr        #
+#    Updated: 2024/08/26 17:17:02 by ndo-vale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRCS	= $(addprefix $(SRC_DIR), main.c init_root.c main_helpers.c free_exit.c sig
 	  		ft_free_everything_exit.c \
 			execute_builtin_in_parent.c print_error.c \
 	  		$(addprefix tokenizer/, tokenize_line.c tokenize_line2.c \
-			tokenizer_parsers.c tokenizer_exit_free.c) \
+			tokenizer_parsers.c tokenizer_parsers2.c tokenizer_exit_free.c) \
 			tokenlst_helpers.c get_env_value.c \
 			$(addprefix tree_builder/, build_tree.c free_tree.c \
 			node_constructors.c) \

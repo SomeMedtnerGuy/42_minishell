@@ -6,7 +6,7 @@
 /*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:03:29 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 00:10:24 by ndo-vale         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:18:29 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,6 @@ void	parse_expansions(t_tokenizer_data *td, t_root *r)
 		}
 		free(env_value);
 	}
-}
-
-void	parse_quotes(t_tokenizer_data *td, t_root *r, char c)
-{
-	int		i;
-	char	*env_value;
-
-	td->ptr += 1;
-	i = -1;
-	while (td->ptr[++i] != c)
-	{
-		if (c == '\"' && td->ptr[i] == '$'
-			&& td->type != '-' && td->type != '_')
-		{
-			if (i != 0 && update_token(&r->stoken,
-					ft_strldup(td->ptr, i)) != 0)
-				exit_with_standard_error(r, "malloc", errno, 0);
-			td->ptr += i;
-			env_value = expand_cmd_env(td, r);
-			if (update_token(&r->stoken, env_value) != 0)
-				exit_with_standard_error(r, "malloc", errno, 0);
-			i = -1;
-		}
-	}
-	if (update_token(&r->stoken, ft_strldup(td->ptr, i)) != 0)
-		exit_with_standard_error(r, "malloc", errno, 0);
-	if (td->type == '-')
-		td->type = '_';
-	td->ptr += i + 1;
 }
 
 static void	parse_redirs(t_tokenizer_data *td)

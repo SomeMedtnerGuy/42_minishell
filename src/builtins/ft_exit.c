@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fivieira <fivieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndo-vale <ndo-vale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:22:49 by ndo-vale          #+#    #+#             */
-/*   Updated: 2024/08/20 00:22:42 by fivieira         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:21:29 by ndo-vale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ static int	parse_exit_arguments(t_root *r, char **args)
 		if (args[2])
 		{
 			ft_matrix_free((void ***) &args);
-			return (ft_print_error("exit: too many arguments"),
-				r->prev_exit_code);
+			return (ft_print_error("exit: too many arguments"), 1);
 		}
 		ft_matrix_free((void ***)&args);
 		free_everything_exit(r, exit_code);
