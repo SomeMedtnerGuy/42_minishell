@@ -8,3 +8,5 @@ A small shell program. It supports:
 - Signals: ctrl-C, ctrl-D and ctrl-\\;
 - Builtins: echo, cd, pwd, export, unset, env and exit.
 - History
+
+(Made in collaboration with [fivieira](https://github.com/fivieira)).
